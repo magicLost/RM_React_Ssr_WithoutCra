@@ -1,0 +1,40 @@
+.App {
+  //max-width: 1200px;
+  //margin: auto;
+  //text-align: center;
+
+  .Footer {
+    display: none;
+    width: 100%;
+    margin: auto;
+    max-width: 800px;
+
+    font: inherit;
+
+    font-size: 12px;
+
+    border-top: solid rgba(0, 0, 0, 0.315) 1px;
+    color: rgba(0, 0, 0, 0.315);
+    padding-top: 10px;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+}
+
+main {
+  max-width: 1300px;
+  margin: auto;
+  padding-top: 55px;
+}
+
+@media (min-width: 700px) {
+  main {
+    padding-top: 65px;
+  }
+}
+
+@media (min-width: 1000px) {
+  main {
+    padding-top: 65px;
+  }
+}
