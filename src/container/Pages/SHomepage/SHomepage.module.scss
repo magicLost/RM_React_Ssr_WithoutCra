@@ -1,0 +1,27 @@
+.Section {
+    //min-height: 300px;
+
+    //background-color: rgb(255, 172, 251);
+
+    /* &:nth-child(odd) {
+      background-color: aquamarine;
+    } */
+
+    .Container {
+      //min-height: 300px;
+
+      .Clients {
+        max-width: 700px;
+        margin: auto;
+      }
+
+      .WorksSample {
+        text-align: center;
+        text-transform: uppercase;
+        //color: white;
+        background-color: rgba(174, 252, 255, 0.226);
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+    }
+  }

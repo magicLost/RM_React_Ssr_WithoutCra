@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import classes from "./CalcPrice.module.scss";
+//import classes from "./CalcPrice.module.scss";
 
 import Form from "../../../component/Form/Form";
 import {
@@ -21,7 +21,7 @@ const CalcPrice = ({}: CalcPriceProps) => {
   console.log("CalcPrice render");
 
   return (
-    <div className={classes.CalcPrice}>
+    <>
       <Form
         formError={formError}
         formMessage={formMessage}
@@ -33,7 +33,7 @@ const CalcPrice = ({}: CalcPriceProps) => {
         onSubmit={controller.onSubmit}
         isLoading={false}
       />
-    </div>
+    </>
   );
 };
 

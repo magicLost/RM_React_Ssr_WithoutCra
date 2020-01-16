@@ -13,6 +13,8 @@ export interface IRCarouselController {
   dispatch: React.Dispatch<CarouselAction> | undefined;
   reducer: (state: CarouselState, action: CarouselAction) => CarouselState;
 
+  containerRef: React.RefObject<HTMLDivElement> | undefined;
+
   calc: ICalcTranslateX;
 
   activeIndex: number;
@@ -49,6 +51,8 @@ abstract class RCarouselController implements IRCarouselController {
 
   calc: ICalcTranslateX;
 
+  containerRef: React.RefObject<HTMLDivElement> | undefined;
+
   activeIndex: number = 0;
   itemsLength: number;
 
@@ -83,6 +87,7 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onMouseDown = (event: any) => {
+    //console.log("RCatrousel mouse down");
     event.preventDefault();
     event.stopPropagation();
 
@@ -99,6 +104,7 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onMouseMove = (event: any) => {
+    //console.log("RCatrousel mouse move");
     event.preventDefault();
     event.stopPropagation();
 
@@ -112,6 +118,7 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onMouseUp = (event: any) => {
+    //console.log("RCatrousel mouse up");
     event.preventDefault();
     event.stopPropagation();
 
@@ -124,8 +131,9 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onTouchStart = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
+    console.log("RCarousel touch start");
+    //event.preventDefault();
+    //event.stopPropagation();
 
     if (this.dispatch === undefined) throw new Error("No dispatch");
 
@@ -139,12 +147,17 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onTouchMove = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
 
     if (this.dispatch === undefined) throw new Error("No dispatch");
 
     const touches = event.changedTouches[0];
+
+    console.log("RCarousel touch move", this.calc.getYScrollFunc(touches.pageX, touches.pageY));
+
+    if(this.calc.getYScrollFunc(touches.pageX, touches.pageY)) return ;
+
+    event.preventDefault();
+    event.stopPropagation();
 
     this.dispatch({
       type: "POINTER_MOVE",
@@ -154,8 +167,9 @@ abstract class RCarouselController implements IRCarouselController {
   };
 
   onTouchEnd = (event: any) => {
+    console.log("RCarousel touch end");
     //event.preventDefault();
-    event.stopPropagation();
+    //event.stopPropagation();
 
     if (this.dispatch === undefined) throw new Error("No dispatch");
 

@@ -14,6 +14,7 @@ const Header = ({ onShowMainMenu, callMeButtonClickHandler }: HeaderProps) => {
   const [previousY, setPreviousY] = useState(0);
 
   useEffect(() => {
+    //console.log("add scroll event");
     window.addEventListener("scroll", onWindowScroll, false);
 
     return () => {
@@ -22,20 +23,22 @@ const Header = ({ onShowMainMenu, callMeButtonClickHandler }: HeaderProps) => {
   });
 
   const onWindowScroll = (event: any) => {
-    const y = (document.body.getBoundingClientRect() as DOMRect).y;
+    //const y = (document.body.getBoundingClientRect() as DOMRect).y;
+    const y = document.body.getBoundingClientRect().top;
 
     //console.log("onWindowScroll - ", isShow, previousY);
+    if(y >= -40){
+      setIsShow(isShow => {if(isShow === false) return true; else return isShow;});
+      setPreviousY(-40);
+      return;
+    }
 
     if (previousY > y) {
       //console.log("Hide");
-      if (isShow === true) {
-        setIsShow(false);
-      }
+      setIsShow(isShow => {if(isShow === true) return false; else return isShow;});
     } else {
       //console.log("Show");
-      if (isShow === false) {
-        setIsShow(true);
-      }
+      setIsShow(isShow => {if(isShow === false) return true; else return isShow;});
     }
 
     setPreviousY(y);
@@ -49,38 +52,27 @@ const Header = ({ onShowMainMenu, callMeButtonClickHandler }: HeaderProps) => {
     ? [classes.ToolButtons, classes.ShowToolButtons].join(" ")
     : [classes.ToolButtons, classes.HideToolButtons].join(" ");
 
-  console.log("render Header");
+  //console.log("RENDER Header");
 
   return (
     <header className={classes.Header}>
-      <div className={wrapperClasses}>
-        <div className={classes.Logo}>
-          {useMemo(
-            () => (
+      {useMemo(() => (
+        <>
+          <div className={wrapperClasses}>
+            <div className={classes.Logo}>
               <Logo isHomepage={false} />
-            ),
-            []
-          )}
-        </div>
+            </div>
 
-        <div className={classes.MainMenuButton}>
-          {useMemo(
-            () => (
+            <div className={classes.MainMenuButton}>
               <MenuButton onClick={onShowMainMenu} />
-            ),
-            []
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div className={toolButtonsClass}>
-        {useMemo(
-          () => (
+          <div className={toolButtonsClass}>
             <CallMeButton clickHandler={callMeButtonClickHandler} />
-          ),
-          []
-        )}
-      </div>
+          </div>
+        </>
+      ), [isShow])}
     </header>
   );
 };

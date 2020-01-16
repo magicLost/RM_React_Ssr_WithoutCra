@@ -7,12 +7,23 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const WebpackChunkHash = require("webpack-chunk-hash");
+//const autoprefixer = require('autoprefixer');
 //const CopyPlugin = require("copy-webpack-plugin");
 
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
 
 //const useVersioning = true;
+
+const postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+      plugins: [
+        require('autoprefixer')
+      ]
+      //sourceMap: true
+  }
+};
 
 module.exports = merge(common, {
   mode: "production",
@@ -27,13 +38,18 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        loaders: [MiniCssExtractPlugin.loader, "css-loader"]
+        loaders: [
+          MiniCssExtractPlugin.loader, 
+          "css-loader",
+          postCssLoader
+        ]
       },
       {
         test: /\.scss$/,
         loaders: [
           MiniCssExtractPlugin.loader,
           "css-loader?modules", //&localIdentName=[name]__[local]--[hash:base64:9]
+          postCssLoader,
           "sass-loader" //if we use resolve-url-loader we must sourceMap=true
         ]
       },
@@ -114,6 +130,12 @@ module.exports = merge(common, {
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
+        terserOptions: {
+          //remove comments
+          output: {
+            comments: false,
+          }
+        },
         extractComments: false
       }),
       new OptimizeCSSAssetsPlugin()

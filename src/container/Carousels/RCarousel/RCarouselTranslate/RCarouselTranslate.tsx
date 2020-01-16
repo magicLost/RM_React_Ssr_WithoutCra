@@ -43,20 +43,22 @@ const RCarouselTranslate = ({items, getItems, activeIndex, translateX, isTransla
 
     /* RENDER */
 
-    console.log("render RCarouselTranslate");
+    console.log("RENDER RCarouselTranslate", controller);
 
     const listStyle: React.CSSProperties = getListStyle(activeIndex, translateX, isTranslated);
 
     return (
         
-        <div className={classes.RCarouselTranslate}>
+        <div 
+            ref={controller.containerRef}
+            className={classes.RCarouselTranslate}
+            onMouseDown={controller.onMouseDown}
+            onTouchStart={controller.onTouchStart}
+            onTouchEnd={controller.onTouchEnd}
+        >
 
             <ul
                 className={classes.ItemsList}
-                onMouseDown={controller.onMouseDown}
-                onTouchStart={controller.onTouchStart}
-                onTouchMove={controller.onTouchMove}
-                onTouchEnd={controller.onTouchEnd}
                 style={listStyle}
             >
 

@@ -14,7 +14,7 @@ interface ControlsFeatureProps  {
 
 const ControlsFeature = ({items, itemClickHandler, config}: ControlsFeatureProps) => {
 
-    const {controller, isShowItems, title, mainItemText} = useControlsFeature(items, itemClickHandler, classes, config);
+    const {controller, isShowItems, title, mainItemText, mainItemRef} = useControlsFeature(items, itemClickHandler, classes, config);
 
     //useEffect(() => { console.log("useEffect ", title, isShowItems, mainItemText)}, [title, isShowItems, mainItemText]);
 
@@ -64,7 +64,7 @@ const ControlsFeature = ({items, itemClickHandler, config}: ControlsFeatureProps
 
         let mainItemContent = <span></span>;
         let className = classes.ItemMain;
-        let onTouchMove = config.isShowTitle ? controller.onMainItemTouchMove : undefined;
+        //let onTouchMove = config.isShowTitle ? controller.onMainItemTouchMove : undefined;
 
         if(config.isMainItemText === true){
 
@@ -90,7 +90,7 @@ const ControlsFeature = ({items, itemClickHandler, config}: ControlsFeatureProps
                 onMouseDown={controller.onMainItemMouseDown}
                 onTouchStart={controller.onMainItemTouchStart}
                 onTouchEnd={controller.onMainItemTouchEnd}
-                onTouchMove={onTouchMove}
+                ref={mainItemRef}
                 style={config.mainItemStyle}
             >
                 { mainItemContent }
@@ -228,7 +228,12 @@ const ControlsFeature = ({items, itemClickHandler, config}: ControlsFeatureProps
 
     return (
         
-        <div className={classes.ControlsFeature} style={config.mainDivStyle}>
+        <div 
+            onContextMenu={event => event.preventDefault()} 
+            className={classes.ControlsFeature} 
+            style={config.mainDivStyle}
+            
+        >
 
             { titleElement }
 

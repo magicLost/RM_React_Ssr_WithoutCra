@@ -65,7 +65,7 @@ const MenuTab = ({
     });
   };
 
-  console.log("render MenuTab");
+  console.log("RENDER MenuTab");
 
   return (
     <div className={classes.MenuTab} style={style}>

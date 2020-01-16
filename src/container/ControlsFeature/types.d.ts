@@ -30,6 +30,8 @@ export interface IControlsFeatureController {
 
     cfClasses: ControlsFeatureClasses;
 
+    mainItemRef: React.RefObject<HTMLDivElement> | null = null;
+
     setState: React.Dispatch<((prevState: CFState) => CFState) | CFState> | null;
 
     itemClickHandler: (event: any) => undefined | void;

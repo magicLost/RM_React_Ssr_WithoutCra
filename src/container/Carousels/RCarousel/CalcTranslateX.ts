@@ -14,6 +14,8 @@ export interface ICalcTranslateX {
     isIndexIncrease: () => boolean;
 
     isEnoughDist: () => boolean;
+
+    getYScrollFunc: (pageX: number, pageY: number) => boolean;
 }
 
 class CalcTranslateX implements ICalcTranslateX{
@@ -46,6 +48,18 @@ class CalcTranslateX implements ICalcTranslateX{
 
         //console.log("onPointerMove", pageX);
 
+        this.dist = this.pageXStart - pageX;
+
+        this.translateX += this.calcTranslateXOnMove(pageX, activeIndex, itemsLength);
+
+        this.prevPageX = pageX;
+
+    };
+
+    /* onPointerMove = (pageX: number, pageY: number, activeIndex: number, itemsLength: number) => {
+
+        //console.log("onPointerMove", pageX);
+
         if(this.isFirstMove){
 
             this.isYScroll = this.isYScrollFunc(pageX, pageY);
@@ -63,7 +77,7 @@ class CalcTranslateX implements ICalcTranslateX{
         this.prevPageX = pageX;
 
     };
-
+ */
     onPointerUp = () => {
 
         this.isYScroll = false;
@@ -73,6 +87,28 @@ class CalcTranslateX implements ICalcTranslateX{
 
     };
 
+    getYScrollFunc = (pageX: number, pageY: number) => {
+
+        if(this.isFirstMove){
+
+            const distX = Math.abs(pageX - this.pageXStart);
+            const distY = Math.abs(pageY - this.pageYStart);
+
+            this.isYScroll = distY > distX;
+
+            this.isFirstMove = false;
+
+        }
+
+        //const distX = Math.abs(pageX - this.pageXStart);
+        //const distY = Math.abs(pageY - this.pageYStart);
+
+        //console.log("distX " + distX);
+        //console.log(event);
+
+        return this.isYScroll;
+
+    };
 
     calcTranslateXOnMove = (pageX: number, activeIndex: number, itemsLength: number) => {
     
@@ -122,7 +158,7 @@ class CalcTranslateX implements ICalcTranslateX{
 
     };
 
-    isYScrollFunc = (pageX: number, pageY: number) => {
+    /* isYScrollFunc = (pageX: number, pageY: number) => {
 
         const distX = Math.abs(pageX - this.pageXStart);
         const distY = Math.abs(pageY - this.pageYStart);
@@ -132,7 +168,7 @@ class CalcTranslateX implements ICalcTranslateX{
 
         return distY > distX;
 
-    };
+    }; */
 
 }
 

@@ -8,7 +8,7 @@ class RCarouselTranslateController extends RCarouselController {
 
     pointerDownAC = (state: CarouselState, action: CarouselAction) => {
 
-        console.log("onPointerDown");
+        //console.log("onPointerDown");
     
         if(action.pageX === undefined || action.pageY === undefined) throw new Error("No pageX or pageY");
 
@@ -24,7 +24,7 @@ class RCarouselTranslateController extends RCarouselController {
     
     pointerMoveAC = (state: CarouselState, action: CarouselAction) => {
     
-        console.log("onPointerMove");
+        //console.log("onPointerMove");
     
         if(action.pageX === undefined || action.pageY === undefined) throw new Error("No pageX or pageY");
     

@@ -67,15 +67,16 @@ var SsrHelper = /** @class */ (function () {
                 if (err)
                     return console.error(err.message);
                 files.forEach(function (file) {
+                    var templateFileName = file.toLowerCase();
                     fs.readFile(path.join(craRenderedPagesDir, file), "utf-8", function (err, data) {
                         if (err)
                             throw err;
                         //console.log(data);
                         var content = "\n{% extends \"base.html.twig\" %}\n\n{% block root %}\n  " + data + "\n{% endblock root %}\n          ";
-                        fs.writeFile(path.join(phpTemplatesDir, file + ".twig"), content, "utf-8", function (err) {
+                        fs.writeFile(path.join(phpTemplatesDir, templateFileName + ".twig"), content, "utf-8", function (err) {
                             if (err)
                                 throw err;
-                            console.log(file + ".twig has been saved!");
+                            console.log(templateFileName + ".twig has been saved!");
                         });
                     });
                 });

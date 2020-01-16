@@ -1,5 +1,7 @@
 import React, { useState, CSSProperties } from "react";
 import classes from "./Textarea.module.scss";
+import inputClasses from "./../Input/Input.module.scss";
+import {HundredPersentWidth} from "./../../../CommonClasses.module.scss";
 import { FormElementProps } from "../FormElementPropsInterface";
 
 interface TextareaProps extends FormElementProps {
@@ -35,16 +37,16 @@ const Textarea = ({
     }
   };
 
-  let textareaClass = classes.Textarea;
+  let textareaClass = `${inputClasses.BaseInput} ${classes.Textarea} ${HundredPersentWidth}`;
 
   let textAreaStyle: CSSProperties | undefined = isResize ? style : undefined;
   let keyUpHandler = isResize ? onKeyUp : undefined;
   let errorElement: JSX.Element | null = null;
 
   if (error) {
-    textareaClass += " " + classes["Textarea--Error"];
+    textareaClass += ` ${inputClasses["BaseInput--Error"]}`;
     errorElement = (
-      <div className={classes.Error}>
+      <div className={inputClasses.Error}>
         <p>{error}</p>
       </div>
     );
@@ -52,7 +54,7 @@ const Textarea = ({
 
   return (
     <div className={classes["TextareaWrapper"]}>
-      <label htmlFor={elementAttrs.id} className={classes.Label}>
+      <label htmlFor={elementAttrs.id} className={inputClasses.Label}>
         {labelValue}
       </label>
 

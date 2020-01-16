@@ -6,13 +6,13 @@ interface MenuButtonProps  {
     onClick: (event: any) => void | undefined;
 }
 
-const menuButton = ({onClick}: MenuButtonProps) => {
+const MenuButton = ({onClick}: MenuButtonProps) => {
 
     console.log("render MenuButton");
 
     return (
         
-        <button className={classes.MenuButton} onClick={onClick}>
+        <button aria-label={"Показать меню сайта"} className={classes.MenuButton} onClick={onClick}>
 
             <svg
                 className={classes.Svg}
@@ -28,5 +28,5 @@ const menuButton = ({onClick}: MenuButtonProps) => {
     );
 };
 
-export default menuButton;
+export default React.memo(MenuButton);
         

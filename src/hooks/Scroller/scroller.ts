@@ -29,20 +29,39 @@ export const useScroller = (items: any[]) => {
 
   if (controllerRef.current === null) throw new Error("No controller");
 
+
   useEffect(() => {
+
     if (controllerRef.current === null) throw new Error("No controller");
 
+    const controller = controllerRef.current;
+
+    //ADD TOUCH MOVE HANDLER WITH OPTIONS
+    if(controller.containerRef === null || controller.containerRef.current === null) throw new Error("No list ref");
+
+    controller.containerRef.current.addEventListener('touchmove', controller.onTouchMove, {passive: false});
+
+    //ADD WINDOW RESIZE HANDLER
     window.addEventListener(
       "resize",
-      controllerRef.current.onWindowResize,
+      controller.onWindowResize,
       false
     );
 
     return () => {
       if (controllerRef.current === null) throw new Error("No controller");
+
+      const controller = controllerRef.current;
+
+      //REMOVE TOUCH MOVE HANDLER WITH OPTIONS
+      if(controller.containerRef === null || controller.containerRef.current === null) throw new Error("No list ref");
+
+      controller.containerRef.current.removeEventListener('touchmove', controller.onTouchMove, false);
+
+      //ADD WINDOW RESIZE HANDLER
       window.removeEventListener(
         "resize",
-        controllerRef.current.onWindowResize,
+        controller.onWindowResize,
         false
       );
     };

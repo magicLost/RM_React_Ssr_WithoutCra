@@ -8,7 +8,7 @@ const pathToPhpStaticDir = path.join(
   "..",
   "..",
   "Symfony",
-  "Symfony_ssr",
+  "RM_Symfony_Ssr",
   "public",
   "static"
 );
@@ -23,7 +23,7 @@ const pathToPhpTemplatesDir = path.join(
   "..",
   "..",
   "Symfony",
-  "Symfony_ssr",
+  "RM_Symfony_Ssr",
   "templates",
   "home"
 );
@@ -40,7 +40,7 @@ const pathToPhpAssetManifestFile = path.join(
   "..",
   "..",
   "Symfony",
-  "Symfony_ssr",
+  "RM_Symfony_Ssr",
   "public",
   "assets-manifest.json"
 );

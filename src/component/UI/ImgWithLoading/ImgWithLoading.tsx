@@ -1,40 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import classes from './ImgWithLoading.module.scss';
+import Image, {SrcSet, ImageProps} from "../Image/Image";
 import Spinner from '../Spinner/Spinner';
 
-export type SrcSet = {
-    srcSet: string;
-    media: string;
-};
 
-interface ImgWithLoadingProps  {
-    alt: string;
-    isActive: boolean;
-    src: string;
-    onImageClick?: (event: any) => void | undefined;
-    index?: number;
-    srcSets?: SrcSet[];
-}
+const ImgWithLoading = ({alt, isActive, src, onImageClick, index = 0, srcSets = []}: ImageProps) => {
 
-const ImgWithLoading = ({alt, isActive, src, onImageClick, index = 0, srcSets = []}: ImgWithLoadingProps) => {
+    const [isLoad, setIsLoad] = useState(true);
+    const [error, setError] = useState("");
 
-    const [isLoad, setIsLoad] = useState(false);
-    const [isError, setIsError] = useState(false);
+    const init = useRef(false);
 
-    let image = null;
-    let spinner = null;
+    if(init.current === false){
+        //check if DOM elements already exists(if we use SSR)
+
+        //const imageRef : HTMLImageElement | null = document.querySelector(`div.${classes.ImgWithLoading} img`);
+        //if(imageRef && index )
+        //imageRef.getAttribute
+        //console.log("imageRef", imageRef);
+
+        init.current = true;
+    }
+
+    //let image = null;
+    //let spinner = null;
 
     const onLoad = () => {
 
         console.log("Load Image");
-        setIsLoad(true);
+        setIsLoad(false);
 
     };
 
     const onError = () => {
 
         console.log("Error Image");
-        setIsError(true);
+
+        /* TODO: WHEN WE USE BLANK SRC WE TRIGGER ERROR EVENT AND WE DO NOT HAVE MECANIZM TO DELETE THIS ERROR WHEN WE USE NORMAL SRC */
+
+        setError("Упс! Фотка не хочет загружаться... Попробуйте перезагрузить страницу.");
 
     };
 
@@ -48,63 +52,33 @@ const ImgWithLoading = ({alt, isActive, src, onImageClick, index = 0, srcSets = 
 
     };
 
-    const getImageWithSrcSet = () => {
-
-        const sources = srcSets.map((value, index) => {
-
-            return (
-                <source key={value.srcSet + index} media={value.media} srcSet={value.srcSet} />
-            );
-
-        });
-
-        const image = getImageTag();
+    const getImage = () => {
+        const imageClass = isLoad ? classes.Hidden : undefined;
 
         return (
-    
-            <picture>
-
-                { sources }
-
-                { image }
-
-            </picture>
-
+            <div className={imageClass}>
+                <Image 
+                    alt={alt}
+                    isActive={isActive}
+                    src={src}
+                    srcSets={srcSets}
+                    onImageClick={onImageClick}
+                    onError={onError}
+                    onLoad={onLoad}
+                    index={index}
+                />
+            </div>
         );
-
-    };
-
-    const getImageTag = () => {
-
-        return <img data-index={index} onClick={onImageClick}  style={{visibility: isLoad ? 'visible' : 'hidden'}} onLoad={onLoad} onError={onError} src={src}  alt={alt} />;
-
-    };
+    }
 
     /* RENDER */
 
-    if(isActive === true){
+    const image = getImage();
 
-        if(isError){
+    const spinner = isLoad && isActive ? getSpinner() : null;
+    const errorElement = error ? <div className={classes.Error}><p>{error}</p></div> : null;
 
-            image = <p>Oppps....</p>;
-
-        }else{
-
-            if(srcSets.length > 0){
-
-                image = getImageWithSrcSet();
-        
-            }else{
-        
-                image = getImageTag();
-            
-            }
-
-            spinner = isLoad ? null : getSpinner();
-
-        }
-        
-    }    
+    console.log("[Render ImgWithLoading]", isLoad, error);
 
     return (
         
@@ -112,6 +86,7 @@ const ImgWithLoading = ({alt, isActive, src, onImageClick, index = 0, srcSets = 
 
             { image }
             { spinner }
+            { errorElement }
 
         </div>
             

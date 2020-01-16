@@ -1,5 +1,5 @@
 import React from "react";
-
+import {HundredPersentWidth} from "./../../../CommonClasses.module.scss";
 import classes from "./Input.module.scss";
 import { FormElementProps } from "../FormElementPropsInterface";
 
@@ -16,11 +16,11 @@ const Input = ({
   onChange,
   disabled = false
 }: InputProps) => {
-  let inputClass = classes.Input;
+  let inputClass = `${classes.BaseInput} ${HundredPersentWidth}`;
   let errorElement = null;
 
   if (error) {
-    inputClass += " " + classes["Input--Error"];
+    inputClass += ` ${classes["BaseInput--Error"]}`;
     errorElement = (
       <div className={classes.Error}>
         <p>{error}</p>
@@ -31,7 +31,7 @@ const Input = ({
   console.log("REnder input", name);
 
   return (
-    <div className={classes.InputWrapper}>
+    <div className={classes.BaseInputWrapper}>
       <label htmlFor={elementAttrs.id} className={classes.Label}>
         {labelValue}
       </label>

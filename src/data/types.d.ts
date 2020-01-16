@@ -26,7 +26,8 @@ export interface IFormElementDesc {
 
 /* TEXT TO RENDER */
 export type ParentElementType = "LIST" | "PARAGRAPH" | "H";
-export type ChildElementType = "SPAN" | "ANCHOR" | "TEXT";
+//LINK - react-router link, ANCHOR - a link
+export type ChildElementType = "SPAN" | "ANCHOR" | "LINK" | "TEXT";
 
 export type HType = "h1" | "h2" | "h3" | "h4" | "h5" ;
 

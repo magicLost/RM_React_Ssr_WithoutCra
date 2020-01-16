@@ -1,5 +1,7 @@
 import {ParentElement, ChildElementOptions, ChildElement, HeaderOptions, ParentElementType} from "../../../data/types";
 import React from 'react';
+import { Link } from "react-router-dom";
+
 
 export interface IParser{
 
@@ -38,7 +40,9 @@ class Parser implements IParser{
 
                 case "TEXT": elem = this.getText(element.options, isLi);break;
 
-                case "ANCHOR": elem = this.getAnchor(element.options, classes.Anchor, isLi);break;
+                case "ANCHOR": elem = this.getAnchor(element.options, classes.Anchor, isLi, false);break;
+
+                case "LINK": elem = this.getAnchor(element.options, classes.Anchor, isLi, true);break;
 
                 case "SPAN": elem = this.getSpan(element.options, classes.Span, isLi);break;
 
@@ -88,26 +92,56 @@ class Parser implements IParser{
         }
     }
 
-    getAnchor = (options: ChildElementOptions, linkClass: string, isLi: boolean): JSX.Element => {
+    getAnchor = (options: ChildElementOptions, linkClass: string, isLi: boolean, isRouter: boolean): JSX.Element => {
 
         const key = this.getKey();
 
         if(isLi === true){
-            return (
-                <li key={key}>
-                    <a 
-                    className={linkClass} 
-                    href={options.href}>{options.label}</a>
-                </li>
-            );
+
+            if(isRouter === true){
+                return (
+                    <li key={key}>
+                        <Link 
+                            className={linkClass} 
+                            to={options.href as string}
+                        >
+                            {options.label}
+                        </Link>
+                    </li>
+                );
+            }else{
+                return (
+                    <li key={key}>
+                        <a 
+                            className={linkClass} 
+                            href={options.href}
+                        >
+                            {options.label}
+                        </a>
+                    </li>
+                );
+            }
+            
         }else{
-            return (
-                <a 
-                    key={key}
-                    className={linkClass} 
-                    href={options.href}
-                >{options.label}</a>
-            );
+            if(isRouter === true){
+                return (
+                    <Link 
+                        key={key}
+                        className={linkClass} 
+                        to={options.href as string}
+                    >
+                        {options.label}
+                    </Link>
+                );
+            }else{
+                return (
+                    <a 
+                        key={key}
+                        className={linkClass} 
+                        href={options.href}
+                    >{options.label}</a>
+                );
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import classes from "./Modal.module.scss";
+import { StopScrolling } from "../../CommonClasses.module.scss";
 import BackDrop from "../UI/BackDrop/BackDrop";
 import CloseButton from "../UI/CloseButton/CloseButton";
 
@@ -38,8 +39,8 @@ interface ModalProps {
 
 const Modal = ({ show, onClose, type, children }: ModalProps) => {
   useEffect(() => {
-    if (show === true) document.body.classList.add(classes.StopScrolling);
-    else document.body.classList.remove(classes.StopScrolling);
+    if (show === true) document.body.classList.add(StopScrolling);
+    else document.body.classList.remove(StopScrolling);
   }, [show]);
 
   //modal class
@@ -48,7 +49,7 @@ const Modal = ({ show, onClose, type, children }: ModalProps) => {
   //modal transform
   const cssTransform = getCssTransform(type, show);
 
-  console.log("render MOdal", type, cssTransform);
+  console.log("RENDER MOdal", show, type, cssTransform);
 
   return (
     <>
@@ -62,7 +63,7 @@ const Modal = ({ show, onClose, type, children }: ModalProps) => {
         }}
       >
         <div className={classes.CloseButton}>
-          <CloseButton onClick={onClose} />
+          <CloseButton ariaLabel={"Закрыть всплывающее окно"} onClick={onClose} />
         </div>
 
         {show && children}

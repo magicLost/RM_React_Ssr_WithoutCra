@@ -1,8 +1,5 @@
 .SelectWrapper {
-  /* width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  cursor: pointer; */
+  
   width: 100%;
   box-sizing: border-box;
 
@@ -44,20 +41,6 @@
     display: block;
     width: 100%;
     box-sizing: content-box;
-
-    /* outline: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1px solid #000000;
-    border-radius: 0;
-
-    background-color: white;
-    font: inherit;
-    padding: 6px 10px;
-    display: block;
-    width: 100%;
-    box-sizing: border-box; */
 
     &:focus {
       outline: none;

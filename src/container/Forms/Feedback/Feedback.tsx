@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Feedback.module.scss";
+//import classes from "./Feedback.module.scss";
 
 import { IHiddenField } from "./../interfaces";
 import { useForm, useFormRequest } from "../../../hooks/Form/form";
@@ -40,8 +40,10 @@ const Feedback = ({
   (controller as FeedbackController).hiddenFields = hiddenFields;
   (controller as FeedbackController).setRequestState = setRequestState;
 
+  console.log("[Render] feedback form");
+
   return (
-    <div className={classes.Feedback}>
+    <>
       <Form
         formError={formError}
         formMessage={formMessage}
@@ -53,11 +55,13 @@ const Feedback = ({
         onSubmit={controller.onSubmit}
         isLoading={isRequestLoading}
       />
-    </div>
+    </>
   );
 };
 
 export default Feedback;
+
+
 
 /* import React, { useMemo } from "react";
 import classes from "./Feedback.module.scss";

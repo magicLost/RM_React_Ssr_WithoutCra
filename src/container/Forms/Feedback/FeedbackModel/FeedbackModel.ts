@@ -69,12 +69,12 @@ class FeedbackModel extends FormModel implements IFeedbackModel {
 
     let stringToHash = name + email + phone;
 
-    stringToHash = encodeURI(stringToHash).substr(0, 63);
+    stringToHash = encodeURI(stringToHash).substr(0, 64);
 
     let token = btoa(stringToHash);
 
     if (token.length > 64) {
-      token = token.substr(0, 63);
+      token = token.substr(0, 64);
     }
 
     return token;

@@ -1,5 +1,7 @@
 import React from "react";
-import classes from "./FileInput.module.scss";
+//import classes from "./FileInput.module.scss";
+import inputClasses from "./../Input/Input.module.scss";
+import {HundredPersentWidth} from "./../../../CommonClasses.module.scss";
 
 import { FormElementProps } from "../FormElementPropsInterface";
 
@@ -16,14 +18,19 @@ const fileInput = ({
   onChange,
   disabled = false
 }: FileInputProps) => {
+
+  let fileInputClasses = `${inputClasses.BaseInput} ${HundredPersentWidth}`;
+
+  if(error) fileInputClasses += inputClasses["BaseInput--Error"];
+
   return (
-    <div className={classes.FileInput}>
-      <label className={classes.Label} htmlFor={elementAttrs.id}>
+    <div className={inputClasses.BaseInputWrapper}>
+      <label className={inputClasses.Label} htmlFor={elementAttrs.id}>
         {labelValue}
       </label>
 
       <input
-        className={classes.Input}
+        className={fileInputClasses}
         type="file"
         {...elementAttrs}
         name={name}
@@ -33,7 +40,7 @@ const fileInput = ({
       />
 
       {error && (
-        <div className={classes.Error}>
+        <div className={inputClasses.Error}>
           <p>{error}</p>
         </div>
       )}

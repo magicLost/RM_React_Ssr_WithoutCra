@@ -33,6 +33,7 @@ class SsrHelper {
       if (err) return console.error(err.message);
 
       files.forEach(file => {
+        const templateFileName = file.toLowerCase();
         fs.readFile(
           path.join(craRenderedPagesDir, file),
           "utf-8",
@@ -47,12 +48,12 @@ class SsrHelper {
 {% endblock root %}
           `;
             fs.writeFile(
-              path.join(phpTemplatesDir, `${file}.twig`),
+              path.join(phpTemplatesDir, `${templateFileName}.twig`),
               content,
               "utf-8",
               err => {
                 if (err) throw err;
-                console.log(`${file}.twig has been saved!`);
+                console.log(`${templateFileName}.twig has been saved!`);
               }
             );
           }

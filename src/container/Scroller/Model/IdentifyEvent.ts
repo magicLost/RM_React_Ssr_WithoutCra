@@ -150,13 +150,13 @@ class IdentifyEvent {
 
             if(speed < 1)
                 return 1;
-            if(speed > 3)
-                return 3;
+            if(speed > 6)
+                return 6;
 
         }else{
 
-            if(speed < -3)
-                return -3;
+            if(speed < -6)
+                return -6;
             if(speed > -1)
                 return -1;
 

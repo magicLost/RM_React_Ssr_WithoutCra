@@ -2,7 +2,7 @@ const path = require("path");
 //const webpack = require("webpack");
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
-//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 //let useDevServer = true;
 //let publicPath = useDevServer ? "http://localhost:8080/dist/" : "/dist/";
@@ -54,7 +54,16 @@ module.exports = merge(common, {
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     hot: true,
+    //compress: true,
+    //port: 80
     //headers: { "Access-Control-Allow-Origin": "*" },
-    compress: false
-  }
+    
+  },
+
+  plugins: [
+    new MiniCssExtractPlugin({
+      //filename:  useVersioning ? '[name].[contenthash:6].css' : "[name].css"
+      filename: "static/css/[name].css"
+    })
+  ],
 });

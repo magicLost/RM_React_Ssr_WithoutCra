@@ -26,6 +26,7 @@ const arrowControls = ({activeIndex, increaseActiveIndex, decreaseActiveIndex, l
                 className={leftArrowClasses}
                 onClick={decreaseActiveIndex}
                 style={ leftArrowStyle }
+                aria-label={"Показать предыдущий слайд"}
             >
 
                 <svg
@@ -43,6 +44,7 @@ const arrowControls = ({activeIndex, increaseActiveIndex, decreaseActiveIndex, l
                 className={rightArrowClasses}
                 onClick={increaseActiveIndex}
                 style={ rightArrowStyle }
+                aria-label={"Показать следующий слайд"}
             >
 
                 <svg

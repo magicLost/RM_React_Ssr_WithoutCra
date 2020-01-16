@@ -1,19 +1,20 @@
 import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import classes from "./../Button/Button.module.scss";
-import { BUTTON_TYPE } from "./../Button/Button";
+import { BUTTON_TYPE, getButtonClasses } from "./../Button/Button";
 
 interface AnchorProps {
-  href: string;
-  label: string;
-  type: BUTTON_TYPE;
-  style?: CSSProperties;
+  href: string,
+  label: string,
+  type: BUTTON_TYPE,
+  ariaLabel: string,
+  style?: CSSProperties
 }
 
-const anchor = ({ href, label, type, style }: AnchorProps) => {
-  let buttonClasses = classes.Button;
+const anchor = ({ href, label, type, ariaLabel, style }: AnchorProps) => {
+  let buttonClasses = getButtonClasses(type);
 
-  switch (type) {
+  /* switch (type) {
     case "TEXT":
       buttonClasses += " " + classes["Button--Text"];
       break;
@@ -28,10 +29,15 @@ const anchor = ({ href, label, type, style }: AnchorProps) => {
       console.error("Bad anchor type " + type);
       buttonClasses += " " + classes["Button--Text"];
       break;
-  }
+  } */
 
   return (
-    <Link to={href} className={buttonClasses} style={style}>
+    <Link 
+      to={href} 
+      className={buttonClasses} 
+      style={style}
+      aria-label={ariaLabel}
+    >
       <span className={classes.Label}>{label}</span>
     </Link>
   );

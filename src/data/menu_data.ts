@@ -7,7 +7,7 @@ export interface MenuItem {
 export const mainMenuItems: MenuItem[] = [
   {
     title: "Портфолио",
-    href: "#"
+    href: "/portfolio"
   },
   {
     title: "О компании",

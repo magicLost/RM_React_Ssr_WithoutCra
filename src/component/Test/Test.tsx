@@ -1,62 +1,178 @@
-import React, { useEffect, useReducer, useRef, useMemo, useState } from "react";
-import { BUTTON_TYPE } from "../UI/Button/Button";
+import React, { useEffect, useReducer, useRef, useMemo, useState, JSXElementConstructor } from "react";
 import classes from "./Test.module.scss";
-import {
-  calcPriceElements,
-  calcPriceElementsMap,
-  priceMultiply
-} from "./../../data/calc_price_form_data";
-import Select, { Option } from "../FormElements/Select/Select";
-import Checkbox from "../FormElements/Checkbox/Checkbox";
-import Input from "../FormElements/Input/Input";
-import {
-  useForm,
-  IFormElementState,
-  TFormElementsState,
-  useFormRequest
-} from "../../hooks/Form/form";
-import {
-  callMeElementsMap,
-  TFormElementsDescs
-} from "../../data/feedback_forms_data";
-import FeedbackController from "../../container/Forms/Feedback/FeedbackController/FeedbackController";
-import Form from "../Form/Form";
+//import LargePrintPage from "./../../container/Pages/LargePrintPage/LargePrintPage";
 
-const Test = () => {
-  const { controller, formError, formMessage, formElementsState } = useForm(
-    "http://public.local/call-me",
-    calcPriceElementsMap,
-    "CALC_PRICE",
-    priceMultiply
-  );
 
-  /* const {
-    isRequestLoading,
-    isRequestSuccess,
-    setRequestState
-  } = useFormRequest();
 
-  (controller as FeedbackController).setRequestState = setRequestState; */
+//does ref change with rerender
+
+const useRequest = () => {
+
+  const initState = {
+    isRequestSuccess: false,
+    requestError: "",
+    isRequestLoading: true
+  };
+
+  const [requestState, setRequestState] = useState(initState);
+
+  return {
+    isRequestLoading: requestState.isRequestLoading,
+    isRequestSuccess: requestState.isRequestSuccess,
+    requestError: requestState.requestError,
+    setRequestState: setRequestState
+  };
+
+}
+
+//import(/* webpackChunkName: "LargePrintPage" */ "./../../container/Pages/LargePrintPage/LargePrintPage")
+const useDynamicImport = (importPromise: Promise<any>) => {
+
+  const {isRequestLoading, isRequestSuccess, requestError, setRequestState} = useRequest();
+  const componentRef: React.MutableRefObject<any> = useRef(null);
 
   useEffect(() => {
-    //console.log("calcPriceElementsMap ", calcPriceElementsMap);
+    importPromise.then(({default: Component}) => {
+      
+      componentRef.current = Component;
+
+      setRequestState(state => {
+        return {
+          isRequestSuccess: true,
+          requestError: "",
+          isRequestLoading: false
+        }
+      })
+      
+    }).catch(error => {
+      setRequestState(state => {
+        return {
+          isRequestSuccess: true,
+          requestError: error.message,
+          isRequestLoading: false
+        }
+      })
+    });  
   }, []);
 
-  console.log("Test render", formElementsState);
+  return {
+    isRequestLoading: isRequestLoading,
+    isRequestSuccess: isRequestSuccess,
+    requestError: requestError,
+
+    component: componentRef.current
+  }
+
+}
+
+const LargePrintPageDynamic = (props: any) => {
+
+  const {isRequestLoading, isRequestSuccess, requestError, setRequestState} = useRequest();
+  const componentRef: React.MutableRefObject<any> = useRef(null);
+
+  useEffect(() => {
+    import(/* webpackChunkName: "LargePrintPage" */ "./../../container/Pages/LargePrintPage/LargePrintPage").then(({default: LargePrintPage}) => {
+      
+      componentRef.current = LargePrintPage;
+
+      setRequestState(state => {
+        return {
+          isRequestSuccess: true,
+          requestError: "",
+          isRequestLoading: false
+        }
+      })
+      
+    }).catch(error => {
+      setRequestState(state => {
+        return {
+          isRequestSuccess: true,
+          requestError: error.message,
+          isRequestLoading: false
+        }
+      })
+    });  
+  }, []);
+
+  const getElement = (props: any) => {
+
+    //let element = (<p>Loading...</p>>);
+
+    if(requestError){
+      return (
+        <>
+          <p>Opps...Something goes wrong...</p>
+          <p>{requestError}</p>
+        </>
+      );
+    }
+
+    if(isRequestSuccess){
+      return (
+        <componentRef.current {...props} />
+      );
+    }
+
+    return <p>Loading..</p>;
+  }
+
+  const element = getElement(props);
+
+  console.log("Test render", element );
 
   return (
-    <div className={classes.Test}>
-      <Form
-        formError={formError}
-        formMessage={formMessage}
-        formElementsState={formElementsState}
-        elementsDescs={calcPriceElementsMap}
-        submitButtonLabel={"Рассчитать"}
-        onChange={controller.onChange}
-        onClear={controller.onClear}
-        onSubmit={controller.onSubmit}
-        isLoading={false}
+    <>
+      {element}
+    </>
+  );
+
+  /* const [isLoading, setIsLoading] = useState(true);
+
+  try{
+    const LargePrintPage: any = await import(/* webpackChunkName: "LargePrintPage"  "./../../container/Pages/LargePrintPage/LargePrintPage");
+  
+    return (
+      <LargePrintPage
+        {...props}
       />
+    );
+  }catch(error){
+    return (
+      <>
+        <p>Opps...Something goes wrong...</p>
+        <p>{error.message}</p>
+      </>
+    )
+  }   */
+}
+
+const Test = () => {
+
+  const [isShowLargePrintPage, setIsShowLargePrintPage] = useState(false);
+
+  useEffect(() => {
+
+    console.log("useEffect");
+
+  }, []);
+
+
+  //console.log(largePrint);
+  const largePrintPage = isShowLargePrintPage ? 
+    <LargePrintPageDynamic
+      onCalcPrice={() => console.log("onCalcPrice")}
+      onFeedback={() => console.log("onFeedback")}
+    /> : null;
+
+  console.log("Test render", isShowLargePrintPage, largePrintPage);
+
+  return (
+    <div className={classes.Test}> 
+
+      <button onClick={() => {setIsShowLargePrintPage(!isShowLargePrintPage)}}>Show</button>
+
+      {largePrintPage}
+
     </div>
   );
 };

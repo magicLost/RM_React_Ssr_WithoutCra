@@ -9,6 +9,8 @@ class ControlsFeatureController implements IControlsFeatureController {
 
     items: CFItem[];
 
+    mainItemRef: React.RefObject<HTMLDivElement> | null = null;
+
     setState: React.Dispatch<((prevState: CFState) => CFState) | CFState> | null = null;
 
     itemClickHandler: (event: any) => undefined | void;

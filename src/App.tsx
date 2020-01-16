@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import classes from "./App.module.scss";
 import MenuTab from "./component/MenuTab/MenuTab";
 import { mainMenuItems } from "./data/menu_data";
@@ -7,10 +7,12 @@ import { useApp } from "./hooks/App/app";
 import Header from "./container/Header/Header";
 import Feedback from "./container/Forms/Feedback/Feedback";
 import { Switch, Route } from "react-router-dom";
-import Homepage from "./container/Pages/Homepage/Homepage";
+import SHomepage from "./container/Pages/SHomepage/SHomepage";
 import ContactsPage from "./container/Pages/ContactsPage/ContactsPage";
 import LargePrintPage from "./container/Pages/LargePrintPage/LargePrintPage";
 import CalcPrice from "./container/Forms/CalcPrice/CalcPrice";
+import PortfolioPage from "./container/Pages/PortfolioPage/PortfolioPage";
+
 
 function App() {
   const { state, controller } = useApp();
@@ -41,11 +43,14 @@ function App() {
               onFeedback={controller.onShowFeedbackForm}
             />
           </Route>
+          <Route path="/portfolio">
+            <PortfolioPage showFeedBackFormHandler={controller.onShowWannaTheSameForm} />
+          </Route>
           <Route path="/contacts">
             <ContactsPage />
           </Route>
           <Route path="/">
-            <Homepage />
+            <SHomepage />
           </Route>
         </Switch>
       </main>
@@ -56,7 +61,7 @@ function App() {
           производство наружной рекламы
         </p>
         <p>г. Санкт-Петербург, Сабировская улица, дом 37</p>
-        <p>+7 (812) 438-03-78; +7 (921) 414-20-92</p>
+        <p>+7 (812) 438-03-78 | +7 (921) 414-20-92</p>
       </footer>
 
       <Modal
@@ -71,7 +76,7 @@ function App() {
           ) {
             return (
               <Feedback
-                url={"http://public.local/feedback"}
+                url={"http://192.168.1.231/feedback"}
                 hiddenFields={controller.hiddenFields}
                 isCallMe={false}
               />
@@ -79,7 +84,7 @@ function App() {
           } else if (controller.modalChildrenType === "CALL_ME") {
             return (
               <Feedback
-                url={"http://public.local/feedback"}
+                url={"http://192.168.1.231/feedback"}
                 hiddenFields={controller.hiddenFields}
                 isCallMe={true}
               />
@@ -87,7 +92,7 @@ function App() {
           } else if (controller.modalChildrenType === "CALC_PRICE") {
             return <CalcPrice />;
           }
-        }, [state.isShowModalFromTop, controller.modalChildrenType])}
+        }, [state.isShowModalFromTop])}
       </Modal>
 
       <Modal
@@ -109,7 +114,7 @@ function App() {
               />
             );
           }
-        }, [state.isShowModalFromLeft, controller.modalChildrenType])}
+        }, [state.isShowModalFromLeft])}
       </Modal>
     </div>
   );

@@ -7,49 +7,26 @@ export type GetScrollerItems = (
   itemClass: string,
   onItemClick: (target: any) => void | undefined,
   numberOfActiveItems: number,
-  itemRef: React.RefObject<HTMLLIElement> | null
+  itemRef: React.RefObject<HTMLLIElement> | null,
+  isIntersect: boolean
 ) => JSX.Element[];
 
 interface ScrollerProps {
   items: any[];
   //type: string;
+  isIntersect: boolean;
   itemClickHandler?: (target: any) => void | undefined;
 
   getItems: GetScrollerItems;
 }
 
-const Scroller = ({ items, itemClickHandler, getItems }: ScrollerProps) => {
+const Scroller = ({ items, itemClickHandler, isIntersect, getItems }: ScrollerProps) => {
   const {
     controller,
     translateX,
     isNeedScroller,
     numberOfActiveItems
   } = useScroller(items);
-
-  /* useEffect(() => {
- 
-         window.addEventListener('resize', controller.onWindowResize, false);
- 
-         return () => {
-             window.removeEventListener('resize', controller.onWindowResize, false);
-         };
-
-    }, []);
-
-    useEffect(() => {
-
-        console.log("controller.containerRef", controller.containerRef);
-        console.log("controller.listRef", controller.listRef);
-        console.log("controller.itemRef", controller.itemRef);
-
-        controller.numberOfItems = items.length;
-        controller.init();
-
-    }, [items]);
-
-    controller.containerRef = useRef(null);
-    controller.listRef = useRef(null); 
-    controller.itemRef = useRef(null); */
 
   const onItemClick = (event: any) => {
     //console.log("onItemClick ");
@@ -69,29 +46,9 @@ const Scroller = ({ items, itemClickHandler, getItems }: ScrollerProps) => {
     }
   };
 
-  console.log("scroller render", controller.itemRef);
+  //console.log("scroller render", controller.itemRef);
 
   /*RENDER*/
-
-  /* let finalListStyle: CSSProperties = {justifyContent: "center"};
-    let mouseDownHandler: ((event: any) => void | undefined) | undefined = undefined;
-    let touchStartHandler: ((event: any) => void | undefined) | undefined = undefined;
-    let touchMoveHandler: ((event: any) => void | undefined) | undefined = undefined;
-    let touchEndHandler: ((event: any) => void | undefined) | undefined = undefined;
-
-    if(isNeedScroller){
-
-        finalListStyle = {
-            ...controller.listStyle,
-            transform: 'translateX(' + translateX + 'px)'
-        };
-
-        mouseDownHandler = controller.onMouseDown;
-        touchStartHandler = controller.onTouchStart;
-        touchMoveHandler = controller.onTouchMove;
-        touchEndHandler = controller.onTouchEnd;
-
-    } */
 
   let finalListStyle: CSSProperties = {
     ...controller.listStyle,
@@ -101,8 +58,8 @@ const Scroller = ({ items, itemClickHandler, getItems }: ScrollerProps) => {
     controller.onMouseDown;
   let touchStartHandler: ((event: any) => void | undefined) | undefined =
     controller.onTouchStart;
-  let touchMoveHandler: ((event: any) => void | undefined) | undefined =
-    controller.onTouchMove;
+  //let touchMoveHandler: ((event: any) => void | undefined) | undefined =
+    //controller.onTouchMove;
   let touchEndHandler: ((event: any) => void | undefined) | undefined =
     controller.onTouchEnd;
 
@@ -111,19 +68,21 @@ const Scroller = ({ items, itemClickHandler, getItems }: ScrollerProps) => {
 
     mouseDownHandler = undefined;
     touchStartHandler = undefined;
-    touchMoveHandler = undefined;
+    //touchMoveHandler = undefined;
     touchEndHandler = undefined;
   }
 
   return (
-    <div className={classes.Scroller} ref={controller.containerRef}>
+    <div 
+      className={classes.Scroller} 
+      ref={controller.containerRef}
+      onMouseDown={mouseDownHandler}
+      onTouchStart={touchStartHandler}
+      onTouchEnd={touchEndHandler}
+    >
       <ul
         ref={controller.listRef}
         className={classes.ItemsList}
-        onMouseDown={mouseDownHandler}
-        onTouchStart={touchStartHandler}
-        onTouchMove={touchMoveHandler}
-        onTouchEnd={touchEndHandler}
         style={finalListStyle}
       >
         {useMemo(
@@ -132,9 +91,10 @@ const Scroller = ({ items, itemClickHandler, getItems }: ScrollerProps) => {
               classes.Item,
               onItemClick,
               numberOfActiveItems,
-              controller.itemRef
+              controller.itemRef,
+              isIntersect
             ),
-          [items, isNeedScroller, numberOfActiveItems]
+          [items, isNeedScroller, isIntersect, numberOfActiveItems]
         )}
       </ul>
     </div>

@@ -1,6 +1,7 @@
 import {ListSvgWithTextItem} from "./../component/UI/ListSvgWithText/ListSvgWithText";
 import {ListSvgItem} from "./../component/UI/ListSvg/ListSvg";
 
+export const mapLink = "https://yandex.ru/maps/org/kompaniya_reklama_market_proizvodstvo_i_dizayn_naruzhnoy_reklamy/1860270939/";
 
 export const contacts: ListSvgWithTextItem[] = [
 
@@ -15,8 +16,8 @@ export const contacts: ListSvgWithTextItem[] = [
 
 export const social: ListSvgItem[] = [
 
-    { href: "#", xlinkHref: "#vk"},
-    { href: "#", xlinkHref: "#twitter"},
-    { href: "#", xlinkHref: "#instagram"},
+    { href: "https://vk.com/reklammarket", xlinkHref: "#vk"},
+    { href: "https://twitter.com/rpkreklammarket", xlinkHref: "#twitter"},
+    { href: "https://www.instagram.com/reklamamarket/", xlinkHref: "#instagram"},
 
 ];

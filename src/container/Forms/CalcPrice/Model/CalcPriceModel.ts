@@ -9,8 +9,8 @@ import {
   PriceMultiply
 } from "../../../../data/calc_price_form_data";
 import FormModel from "../../FormModel";
-import { IFormElementDesc } from "../../../../data/feedback_forms_data";
-import { ELEMENT_TYPE } from "../../../../component/Form/Form";
+//import { IFormElementDesc } from "../../../../data/feedback_forms_data";
+//import { ELEMENT_TYPE } from "../../../../component/Form/Form";
 
 //import { IFormValidatorChain } from "./../../../../helper/Validation/FormValidatorChain";
 
@@ -60,7 +60,7 @@ class CalcPriceModel extends FormModel {
 
     if (!result) return "Не удалось посчитать...";
 
-    return `Примерная стоимость - ${result} руб.`;
+    return `Примерная стоимость - ${Math.round(result)} руб.`;
   }
 
   getData(stateFormElements: TFormElementsState) {

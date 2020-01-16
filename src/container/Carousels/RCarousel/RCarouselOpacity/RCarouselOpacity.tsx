@@ -1,6 +1,6 @@
 import React, {useMemo, CSSProperties} from 'react';
 import classes from './RCarouselOpacity.module.scss';
-import {CarouselAction} from "../../../../hooks/Carousels/RCarousel/rcarousel";
+//import {CarouselAction} from "../../../../hooks/Carousels/RCarousel/rcarousel";
 import { IRCarouselController } from '../RCarouselController';
         
 export type GetItemStyle = (index: number) => CSSProperties | undefined;
@@ -60,14 +60,17 @@ const RCarouselOpacity = ({items, getItems, activeIndex, opacity, isTranslated, 
     
     return (
         
-        <div className={classes.RCarouselOpacity}>
+        <div 
+            className={classes.RCarouselOpacity}
+            ref={controller.containerRef}
+            onMouseDown={controller.onMouseDown}
+            onTouchStart={controller.onTouchStart}
+            onTouchMove={controller.onTouchMove}
+            onTouchEnd={controller.onTouchEnd}
+        >
 
             <ul
                 className={classes.ItemsList}
-                onMouseDown={controller.onMouseDown}
-                onTouchStart={controller.onTouchStart}
-                onTouchMove={controller.onTouchMove}
-                onTouchEnd={controller.onTouchEnd}
             >
 
                 { itemsElements }

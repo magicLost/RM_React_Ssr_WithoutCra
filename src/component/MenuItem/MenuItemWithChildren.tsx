@@ -32,7 +32,7 @@ const MenuItemWithChildren = ({
 
   const backgroundColor = backgroundColors[layer];
 
-  console.log("layer - " + layer + " BGcolor = " + backgroundColor);
+  //console.log("layer - " + layer + " BGcolor = " + backgroundColor);
 
   const style: CSSProperties = {
     backgroundColor: backgroundColor,

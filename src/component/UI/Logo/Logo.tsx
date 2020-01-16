@@ -25,7 +25,7 @@ const Logo = ({ isHomepage }: LogoProps) => {
     );
   } else {
     return (
-      <Link className={classes.Logo} to={"/"}>
+      <Link aria-label={"Перейти на домашнюю страницу"} className={classes.Logo} to={"/"}>
         <svg className={classes.Svg} width="5" height={"5"}>
           <use xlinkHref={icons + "#logo"} />
         </svg>
@@ -34,4 +34,4 @@ const Logo = ({ isHomepage }: LogoProps) => {
   }
 };
 
-export default Logo;
+export default React.memo(Logo);

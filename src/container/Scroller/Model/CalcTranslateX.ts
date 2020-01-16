@@ -36,17 +36,17 @@ class CalcTranslateX {
     if (listRef.current === null || itemRef.current === null)
       throw new Error("No listRef or itemRef");
 
-    this.listWidth = listRef.current.getBoundingClientRect().width;
-    this.itemWidth = itemRef.current.getBoundingClientRect().width;
+    this.listWidth = Math.round(listRef.current.getBoundingClientRect().width);
+    this.itemWidth = Math.round(itemRef.current.getBoundingClientRect().width);
 
     this.setTranslateOffsets();
 
     this.swipeDist = Math.round((this.itemWidth * this.numberOfItems) / 10);
 
-    /* console.log("minTranslateOffset = " + this.minTranslateOffset);
+     /* console.log("minTranslateOffset = " + this.minTranslateOffset);
          console.log("maxTranslateOffset = " + this.maxTranslateOffset);
          console.log("listWidth = " + this.listWidth);
-         console.log("itemWidth = " + this.itemWidth);*/
+         console.log("itemWidth = " + this.itemWidth); */
   };
 
   onPointerDown = (
@@ -62,13 +62,19 @@ class CalcTranslateX {
     if (listRef.current === null || containerRef.current === null)
       throw new Error("No listRef or containerRef");
 
+    //(containerRef.current.getBoundingClientRect() as DOMRect).x
     const offsetX = Math.abs(
-      (containerRef.current.getBoundingClientRect() as DOMRect).x
+      containerRef.current.getBoundingClientRect().left
     );
+    //(listRef.current.getBoundingClientRect() as DOMRect).x - offsetX;
     this.translateX =
-      (listRef.current.getBoundingClientRect() as DOMRect).x - offsetX;
+      listRef.current.getBoundingClientRect().left - offsetX;
 
-    //console.log("DOWN ", listRef.current.getBoundingClientRect());
+    /* console.log("DOWN ", listRef.current.getBoundingClientRect());
+    console.log("DOWN ", containerRef.current);
+    console.log("DOWN ", containerRef.current.getBoundingClientRect());
+    console.log("DOWN ", offsetX);
+    console.log("DOWN ", this.translateX); */
   };
 
   onPointerMove = (pageX: number, pageY: number) => {
@@ -87,7 +93,7 @@ class CalcTranslateX {
   setTranslateOffsets = () => {
     this.maxTranslateOffset = 0;
     this.minTranslateOffset =
-      this.listWidth - this.itemWidth * this.numberOfItems;
+      Math.round(this.listWidth - this.itemWidth * this.numberOfItems);
   };
 
   isOutsideOffset = (translateX: number) => {
@@ -99,6 +105,8 @@ class CalcTranslateX {
 
   calcTranslateXOnMove = (stateTranslateX: number, pageX: number) => {
     let translateX = 0;
+
+    //console.log("[calcTranslateXOnMove] ", stateTranslateX, pageX);
 
     if (stateTranslateX > this.maxTranslateOffset) {
       if (pageX > this.prevPageX) {
@@ -118,6 +126,8 @@ class CalcTranslateX {
       translateX = pageX - this.prevPageX;
     }
 
+    //console.log("[calcTranslateXOnMove] ", translateX);
+
     this.prevPageX = pageX;
 
     translateX = this.translateX + translateX;
@@ -126,6 +136,8 @@ class CalcTranslateX {
       this.minTranslateOffset - 50,
       this.maxTranslateOffset + 50
     );
+
+    //console.log("[calcTranslateXOnMove] ", translateX);
 
     this.translateX = translateX;
   };

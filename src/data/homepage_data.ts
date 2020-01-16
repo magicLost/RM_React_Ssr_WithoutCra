@@ -123,11 +123,11 @@ export const mainText: ParentElement[] = [
     type: "LIST",
     children: [
       {
-        type: "ANCHOR",
+        type: "LINK",
         options: { href: "#", label: "Оформление вашего магазина" }
       },
       {
-        type: "ANCHOR",
+        type: "LINK",
         options: { href: "#", label: "Оклейка автомобилей рекламой" }
       },
       {
@@ -139,7 +139,7 @@ export const mainText: ParentElement[] = [
       { type: "TEXT", options: { text: "Печать интерьерных наклеек" } },
       { type: "TEXT", options: { text: "Печать на холсте" } },
       {
-        type: "ANCHOR",
+        type: "LINK",
         options: { href: "#", label: "POS материалы и изделия из оргстекла" }
       }
     ]
@@ -157,11 +157,11 @@ export const mainText: ParentElement[] = [
         options: { text: "Основной составляющей нашей продукции является " }
       },
       {
-        type: "ANCHOR",
-        options: { href: "#", label: "широкоформатная печать" }
+        type: "LINK",
+        options: { href: "/large-print", label: "широкоформатная печать" }
       },
       { type: "TEXT", options: { text: " и " } },
-      { type: "ANCHOR", options: { href: "#", label: "плоттерная резка" } },
+      { type: "LINK", options: { href: "#", label: "плоттерная резка" } },
       {
         type: "TEXT",
         options: {

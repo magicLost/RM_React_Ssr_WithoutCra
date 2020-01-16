@@ -1,7 +1,13 @@
 
 class StaticTest {
 
-    static getHello(): string { return "Hello";}
+    constructor(){
+        console.log("StaticTest constructor");
+    }
+
+    hello = () => "hello";
+
+    static getHello(): string { return "Static Hello";}
 
 }
 

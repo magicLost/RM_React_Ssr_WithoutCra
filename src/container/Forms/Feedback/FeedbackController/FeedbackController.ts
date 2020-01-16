@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+//import axios from "axios";
 
 import { IHiddenField } from "./../../interfaces";
 import { IFeedbackModel } from "./../../interfaces";
@@ -11,6 +11,7 @@ import { IFormState } from "../../../../hooks/Form/form";
 import { IRequestState } from "./../../../../hooks/request";
 import FeedbackModel from "./../FeedbackModel/FeedbackModel";
 import { FormController } from "../../FormController";
+import { sendPostWithJsonResponse } from "../../../../helper/Fetch/fetch";
 
 /* interface InputChangeAction {
     type: FORM_ACTION,
@@ -46,6 +47,8 @@ class FeedbackController extends FormController {
     event.preventDefault();
     event.stopPropagation();
 
+    console.log("onClear");
+
     this.onClearHandler();
 
     if (this.setRequestState === null) throw new Error("No setRequestState...");
@@ -63,12 +66,16 @@ class FeedbackController extends FormController {
     event.preventDefault();
     event.stopPropagation();
 
+    console.log("onChange", event.target);
+
     this.onChangeHandler(event.target);
   };
 
   onSubmit = (event: any): void | undefined => {
     event.preventDefault();
     event.stopPropagation();
+
+    console.log("Submit");
 
     this.onSubmitHandler();
   };
@@ -99,7 +106,7 @@ class FeedbackController extends FormController {
           prevState.formElementsState
         );
 
-        formData.append("token", token);
+        formData.append("_token", token);
 
         this.postRequest(formData);
       } else {
@@ -114,7 +121,197 @@ class FeedbackController extends FormController {
     });
   }
 
+  protected onSuccess = () => {
+    if (this.setFormState === null) throw new Error("No setFormState...");
+
+    if (this.setRequestState === null) throw new Error("No setRequestState...");
+
+    this.setFormState(prevState => {
+      return {
+        ...prevState,
+        formError: "",
+        formMessage:
+          "Мы получили вашу заявку и свяжемся с вами в течение 15 минут."
+      };
+    });
+
+    this.setRequestState({
+      isRequestSuccess: true,
+      isRequestError: false,
+      isRequestLoading: false
+    });
+  };
+
+  protected onFail = (data: any) => {
+    if (this.setFormState === null) throw new Error("No setFormState...");
+
+    if (this.setRequestState === null) throw new Error("No setRequestState...");
+
+    this.setFormState(prevState => {
+      return {
+        ...prevState,
+        formError: data.data.error,
+        formMessage: ""
+      };
+    });
+
+    this.setRequestState({
+      isRequestSuccess: false,
+      isRequestError: false,
+      isRequestLoading: false
+    });
+  };
+
+  protected onWrongStatus = () => {
+    if (this.setFormState === null) throw new Error("No setFormState...");
+
+    if (this.setRequestState === null) throw new Error("No setRequestState...");
+
+    this.setFormState(prevState => {
+      return {
+        ...prevState,
+        formError: "Что-то не сработало...",
+        formMessage: ""
+      };
+    });
+
+    this.setRequestState({
+      isRequestSuccess: false,
+      isRequestError: true,
+      isRequestLoading: false
+    });
+  };
+
+  protected onServerError = () => {
+    if (this.setRequestState === null)
+          throw new Error("No setRequestState...");
+      if (this.setFormState === null) throw new Error("No setFormState...");
+
+      this.setFormState(prevState => {
+        return {
+          ...prevState,
+          formError: "Сервер не хочет отвечать.",
+          formMessage: ""
+        };
+      });
+
+      this.setRequestState({
+        isRequestSuccess: false,
+        isRequestError: true,
+        isRequestLoading: false
+      });
+  };
+
+  protected beforeRequest = () => {
+    if (this.setFormState === null) throw new Error("No setFormState...");
+
+    if (this.setRequestState === null) throw new Error("No setRequestState...");
+
+    this.setFormState(prevState => {
+      if (prevState.formError !== "") return { ...prevState, formError: "" };
+
+      return prevState;
+    });
+
+    this.setRequestState({
+      isRequestSuccess: false,
+      isRequestError: false,
+      isRequestLoading: true
+    });
+  }
+
   protected postRequest(formData: FormData): void | undefined {
+
+    this.beforeRequest();
+
+    sendPostWithJsonResponse(this.url, formData).then(data => {
+
+      if (data.status && data.status === "success") {
+
+        this.onSuccess();
+
+      } else if (data.status && data.status === "fail") {
+
+        this.onFail(data);
+
+      } else {
+
+        this.onWrongStatus();
+
+      }
+
+    }).catch(error => {
+      this.onServerError();
+    })
+
+    /* axios({
+      method: "post",
+      url: this.url,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" }
+    })
+      .then(response => {
+        if (this.setFormState === null) throw new Error("No setFormState...");
+
+        if (this.setRequestState === null)
+          throw new Error("No setRequestState...");
+
+        if (response.data.result && response.data.result === "SUCCESS") {
+          //if(this.setRequestState === null) throw new Error("No setRequestState...");
+          this.setFormState(prevState => {
+            return {
+              ...prevState,
+              formError: "",
+              formMessage:
+                "Мы получили вашу заявку и свяжемся с вами в течение 15 минут."
+            };
+          });
+
+          this.setRequestState({
+            isRequestSuccess: true,
+            isRequestError: false,
+            isRequestLoading: false
+          });
+        } else if (response.data.result && response.data.result === "ERROR") {
+          this.setFormState(prevState => {
+            return {
+              ...prevState,
+              formError: response.data.error,
+              formMessage: ""
+            };
+          });
+
+          this.setRequestState({
+            isRequestSuccess: false,
+            isRequestError: false,
+            isRequestLoading: false
+          });
+        } else {
+          throw new Error("Bad result data result? - " + response.data.result);
+        }
+      })
+      .catch(error => {
+        if (this.setRequestState === null)
+          throw new Error("No setRequestState...");
+        if (this.setFormState === null) throw new Error("No setFormState...");
+
+        this.setFormState(prevState => {
+          return {
+            ...prevState,
+            formError: "Сервер не хочет отвечать.",
+            formMessage: ""
+          };
+        });
+
+        this.setRequestState({
+          isRequestSuccess: false,
+          isRequestError: true,
+          isRequestLoading: false
+        });
+      }); */
+  }
+
+  /* protected postRequest(formData: FormData): void | undefined {
     if (this.setFormState === null) throw new Error("No setFormState...");
 
     if (this.setRequestState === null) throw new Error("No setRequestState...");
@@ -198,7 +395,7 @@ class FeedbackController extends FormController {
           isRequestLoading: false
         });
       });
-  }
+  } */
 }
 
 export default FeedbackController;

@@ -12,15 +12,15 @@ https://blog.zverit.com/frontend/2017/09/15/autoprefixer-webpack-config/
 ADD POSTCSS WITH AUTOPREFIXER
 loader-css,
 {
-loader: 'postcss-loader',
-options: {
-plugins: [
-autoprefixer({
-browsers:['ie >= 8', 'last 4 version']
-})
-],
-sourceMap: true
-}
+    loader: 'postcss-loader',
+    options: {
+        plugins: [
+            autoprefixer({
+                browsers:['ie >= 8', 'last 4 version']
+            })
+        ],
+        sourceMap: true
+    }
 },
 loader-sass
 

@@ -1,6 +1,9 @@
 import React, { useMemo } from "react";
 import classes from "./Form.module.scss";
 import Button from "../UI/Button/Button";
+import SubmitButton from "../FormElements/SubmitButton/SubmitButton";
+import ResetButton from "../FormElements/ResetButton/ResetButton";
+
 import { TFormElementsDescs } from "../../data/feedback_forms_data";
 import { IFormElementState, TFormElementsState } from "../../hooks/Form/form";
 //import { IFormController } from "./../../container/Forms/FormController";
@@ -120,6 +123,8 @@ export const renderElements = (
   return elements;
 };
 
+
+
 const Form = ({
   elementsDescs,
   formElementsState,
@@ -133,6 +138,11 @@ const Form = ({
   submitButtonLabel = "Отправить",
   isLoading = false
 }: FormProps) => {
+
+  /* const onKeyUp = (event: any) => {
+
+  }; */
+
   const elements = renderElements(
     elementsDescs,
     formElementsState,
@@ -140,9 +150,14 @@ const Form = ({
     isLoading
   );
 
-  console.log("RENDER Form", isLoading);
+  console.log("RENDER Form", formMessage, formError,  isLoading);
   return (
-    <form action={"#"} className={classes.Form} onSubmit={onSubmit}>
+    <form 
+      action={"#"} 
+      className={classes.Form} 
+      onSubmit={onSubmit}
+      onReset={onClear}
+    >
       {elements}
 
       <div className={classes.Message}>
@@ -160,22 +175,19 @@ const Form = ({
       </div>
 
       <div className={classes.Buttons}>
-        <Button
+        <ResetButton
           label={"Очистить"}
           type={"OUTLINED"}
-          onClick={onClear}
           style={{
             color: "rgba(0, 0, 0, 0.3)",
             borderColor: "rgba(0, 0, 0, 0.3)"
           }}
           disabled={isLoading}
-          isLoading={false}
         />
 
-        <Button
+        <SubmitButton
           label={submitButtonLabel}
           type={"OUTLINED"}
-          onClick={onSubmit}
           style={{
             color: "rgba(178, 243, 141, 0.85)",
             borderColor: "rgba(178, 243, 141, 0.85)"

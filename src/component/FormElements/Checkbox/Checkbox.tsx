@@ -1,5 +1,6 @@
 import React from "react";
-import classes from "./Checkbox.module.scss";
+//import classes from "./Checkbox.module.scss";
+import classes from "./../Input/Input.module.scss";
 import { FormElementProps } from "../FormElementPropsInterface";
 
 interface CheckboxProps extends FormElementProps {
@@ -18,10 +19,10 @@ const Checkbox = ({
   console.log("Checkbox render ");
 
   return (
-    <div className={classes.Wrapper}>
+    <div className={classes.BaseInputWrapper}>
       <input
         type="checkbox"
-        className={classes.Checkbox}
+        className={classes.BaseInput}
         {...elementAttrs}
         value={value}
         disabled={disabled}

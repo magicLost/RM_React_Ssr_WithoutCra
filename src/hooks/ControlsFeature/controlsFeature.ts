@@ -1,4 +1,4 @@
-import {useState, useRef, MutableRefObject} from 'react';
+import {useState, useRef, useEffect, MutableRefObject} from 'react';
 import {CFConfig, IControlsFeatureController} from "./../../container/ControlsFeature/types";
 import {CFState} from "./types";
 
@@ -8,12 +8,13 @@ import ControlsFeatureClasses from '../../container/ControlsFeature/Model/Contro
 
 
 export const useControlsFeature = (
-
     items: CFItem[], 
     itemClickHandler: (event: any) => void | undefined, 
     classes: any, 
     config: CFConfig) => 
 {
+
+
 
     const controllerRef: MutableRefObject<IControlsFeatureController | null> = useRef(null);
 
@@ -35,13 +36,38 @@ export const useControlsFeature = (
 
     if(controllerRef.current === null) throw new Error("No controller");
 
+    useEffect(() => {
+
+        if (controllerRef.current === null) throw new Error("No controller");
+    
+        const controller = controllerRef.current;
+    
+        //ADD TOUCH MOVE HANDLER WITH OPTIONS
+        if(controller.mainItemRef === null || controller.mainItemRef.current === null) throw new Error("No main item ref");
+    
+        controller.mainItemRef.current.addEventListener('touchmove', controller.onMainItemTouchMove, {passive: false});
+    
+        return () => {
+          if (controllerRef.current === null) throw new Error("No controller");
+    
+          const controller = controllerRef.current;
+    
+          //REMOVE TOUCH MOVE HANDLER WITH OPTIONS
+          if(controller.mainItemRef === null || controller.mainItemRef.current === null) throw new Error("No main item ref");
+    
+          controller.mainItemRef.current.removeEventListener('touchmove', controller.onMainItemTouchMove, false);
+        };
+      }, []);
+
     controllerRef.current.setState = setState;
+    controllerRef.current.mainItemRef = useRef(null);
 
     return {
         controller: controllerRef.current,
         isShowItems: state.isShowItems,
         title: state.title,
-        mainItemText: state.mainItemText
+        mainItemText: state.mainItemText,
+        mainItemRef: controllerRef.current.mainItemRef
     }
 
 }

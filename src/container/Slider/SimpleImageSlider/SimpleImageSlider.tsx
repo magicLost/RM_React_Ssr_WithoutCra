@@ -1,24 +1,30 @@
 import React from "react";
 import classes from "./SimpleImageSlider.module.scss";
 import Scroller, { GetScrollerItems } from "../../Scroller/Scroller";
-import ImgWithLoading from "../../../component/UI/ImgWithLoading/ImgWithLoading";
+//import ImgWithLoading from "../../../component/UI/ImgWithLoading/ImgWithLoading";
+import Image from "../../../component/UI/Image/Image";
+import {useIntersect} from "../../../hooks/Intersection/intersection";
 
 interface SimpleImageSliderProps {
   photos: string[];
 }
 
 const SimpleImageSlider = ({ photos }: SimpleImageSliderProps) => {
+
+  const [setNode, isIntersect] = useIntersect({threshold: 0});
+
   const getScrollerItems: GetScrollerItems = (
     itemClass,
     onItemClick,
     numberOfActiveItems,
     itemRef
   ) => {
-    console.log("get scroller items");
+    console.log("GET scroller items");
     return photos.map((value, index: number) => {
       //console.log("get scroller items", itemRef);
-      let isActive = index + 1 <= numberOfActiveItems;
-      console.log("IS ACTIVE", isActive);
+      let isActive = isIntersect && (index + 1 <= numberOfActiveItems);
+      //console.log("IS INTERSECT", isActive);
+      //console.log("numberOfActiveItems", numberOfActiveItems);
 
       return (
         <li
@@ -28,7 +34,7 @@ const SimpleImageSlider = ({ photos }: SimpleImageSliderProps) => {
           data-index={index}
         >
           <div className={classes.PhotoWrapper}>
-            <ImgWithLoading
+            <Image
               alt={"Пример нашей работы."}
               isActive={isActive}
               src={photos[index]}
@@ -39,9 +45,15 @@ const SimpleImageSlider = ({ photos }: SimpleImageSliderProps) => {
     });
   };
 
+  console.log("RENDER SimpleImageSlider");
+
   return (
-    <div className={classes.SimpleImageSlider}>
-      <Scroller items={photos} getItems={getScrollerItems} />
+    <div ref={setNode} className={classes.SimpleImageSlider}>
+      <Scroller 
+        items={photos} 
+        getItems={getScrollerItems}
+        isIntersect={isIntersect}
+      />
     </div>
   );
 };

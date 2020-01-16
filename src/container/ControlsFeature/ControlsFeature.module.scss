@@ -82,11 +82,14 @@
     .ItemMain{
   
       position: absolute;
+      user-select: none;
       top: -20px;
       left: -20px;
 
       width: 40px;
       height: 40px;
+
+      touch-action: none;
   
       border: none;
   
@@ -100,6 +103,7 @@
       z-index: 99;
   
       .Svg{
+        user-select: none;
         width: 20px;
         height: 30px;
   
@@ -111,7 +115,10 @@
     }
   
     .ItemMainText{
-  
+
+      touch-action: none;
+      user-select: none;
+
       position: absolute;
       top: -16px;
       left: -60px;
@@ -132,8 +139,11 @@
     }
 
     .Item{
+
+      touch-action: none;
   
       position: absolute;
+    
       top: -20px;
       left: -20px;
   
@@ -155,6 +165,7 @@
       z-index: 99;
   
       .ItemSvg{
+        user-select: none;
         width: 40px;
         height: 40px;
       }
@@ -162,6 +173,8 @@
     }
   
     .ItemText{
+      touch-action: none;
+      user-select: none;
   
       position: absolute;
       top: -15px;
@@ -201,7 +214,9 @@
   
     //HalfCicle
     .ItemBG{
-  
+      touch-action: none;
+      user-select: none;
+
       position: absolute;
       top: -10px;
       left: -10px;

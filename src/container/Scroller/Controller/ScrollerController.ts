@@ -48,7 +48,7 @@ class ScrollerController{
         if(this.setState === null)
             throw new Error("No state");
 
-        this.setState((prevState) => {
+        this.setState((prevState: ScrollerState) => {
 
             /*if(prevState.isNeedScroller !== isNeedScroller){
                 return { ...prevState, isNeedScroller: isNeedScroller };
@@ -87,7 +87,7 @@ class ScrollerController{
     
         if(this.setState === null) throw new Error("No state");
 
-        this.setState((prevState) => {
+        this.setState((prevState: ScrollerState) => {
 
             if(prevState.isNeedScroller === false){
     
@@ -142,7 +142,7 @@ class ScrollerController{
 
     onMouseDown = (event: any) => {
 
-        //console.log('onMouseDown');
+        //console.log('Scroller onMouseDown');
         event.preventDefault();
         event.stopPropagation();
 
@@ -154,7 +154,7 @@ class ScrollerController{
     };
 
     onMouseMove = (event: any) => {
-        //console.log('onMouseMove');
+        //console.log('Scroller onMouseMove');
 
         event.preventDefault();
         event.stopPropagation();
@@ -166,7 +166,7 @@ class ScrollerController{
     };
 
     onMouseUp = (event: any) => {
-        //console.log('onMouseUp');
+        //console.log('Scroller onMouseUp');
 
         event.preventDefault();
         event.stopPropagation();
@@ -180,9 +180,9 @@ class ScrollerController{
 
     onTouchStart = (event: any) => {
 
-        //console.log('onTouchStart');
-        event.preventDefault();
-        event.stopPropagation();
+        //console.log('Scroller onTouchStart');
+        //event.preventDefault();
+        //event.stopPropagation();
 
         const touch = event.changedTouches[0];
 
@@ -192,11 +192,16 @@ class ScrollerController{
 
     onTouchMove = (event: any) => {
 
-        //console.log('onTouchMove');
-        event.preventDefault();
-        event.stopPropagation();
+        //console.log('Scroller onTouchMove');
 
         const touch = event.changedTouches[0];
+
+        this.calcTranslateX.onPointerMove(touch.pageX, touch.pageY);
+
+        if(this.calcTranslateX.isYScroll) return;
+
+        event.preventDefault();
+        event.stopPropagation();
 
         this.onPointerMove(touch.pageX, touch.pageY);
 
@@ -204,9 +209,9 @@ class ScrollerController{
 
     onTouchEnd = (event: any) => {
 
-        //console.log('onTouchEnd');
-        event.preventDefault();
-        event.stopPropagation();
+        //console.log('Scroller onTouchEnd');
+        //event.preventDefault();
+        //event.stopPropagation();
         
         const touch = event.changedTouches[0];
 
@@ -219,7 +224,7 @@ class ScrollerController{
         if(this.listRef === null || this.containerRef === null) 
             throw new Error("No listRef or containerRef");
 
-        //console.log("onPointerDown");
+        //console.log("Scroller onPointerDown");
 
         this.calcTranslateX.onPointerDown(pageX, pageY, this.listRef, this.containerRef);
 
@@ -230,7 +235,9 @@ class ScrollerController{
 
         if(this.setState === null) throw new Error("No state");
 
-        this.setState((prevState) => {
+        this.setState((prevState: ScrollerState) => {
+
+            //console.log(this.getTranslateX());
 
             return {
                 ...prevState,
@@ -243,13 +250,48 @@ class ScrollerController{
 
     protected onPointerMove = (pageX: number, pageY: number) => {
 
-        //console.log("onPointerMove", this.calcTranslateX.isYScroll);
+        //console.log("Scroller onPointerMove", this.calcTranslateX.isYScroll);
+    
+        //this.calcTranslateX.onPointerMove(pageX, pageY);
+
+        if(this.setState === null) throw new Error("No state");
+
+        //if(this.calcTranslateX.isYScroll) return;
+
+        this.setState((prevState: ScrollerState) => {
+
+            this.eventTyper.onTouchMove(pageX);
+        
+            this.calcTranslateX.calcTranslateXOnMove(prevState.translateX, pageX);
+
+            this.showContentManager.onPointerMove(
+                this.calcTranslateX.listWidth, 
+                this.calcTranslateX.itemWidth,
+                this.getTranslateX(),
+                prevState.numberOfActiveItems,
+                this.numberOfItems
+            );
+    
+            return {
+                ...prevState,
+                translateX: this.getTranslateX(),
+                numberOfActiveItems: this.showContentManager.numberOfActiveItems 
+                //isTranslated: true
+            };
+
+        });
+    
+    };
+
+    /* protected onPointerMove = (pageX: number, pageY: number) => {
+
+        //console.log("Scroller onPointerMove", this.calcTranslateX.isYScroll);
     
         this.calcTranslateX.onPointerMove(pageX, pageY);
 
         if(this.setState === null) throw new Error("No state");
     
-        this.setState((prevState) => {
+        this.setState((prevState: ScrollerState) => {
 
             if(!this.calcTranslateX.isYScroll){
     
@@ -278,15 +320,15 @@ class ScrollerController{
 
         });
     
-    };
+    }; */
 
     protected onPointerUp = (pageX: number, pageY: number) => {
 
-        //console.log("onPointerUp");
+        //console.log("Scroller onPointerUp");
 
         if(this.setState === null) throw new Error("No state");
     
-        this.setState((prevState) => {
+        this.setState((prevState: ScrollerState) => {
 
             if(!this.calcTranslateX.isYScroll){
     

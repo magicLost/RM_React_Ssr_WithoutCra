@@ -41,7 +41,7 @@ const MainPresentation = ({}: MainPresentationProps) => {
         activeIndex: number): JSX.Element[] => 
     {
 
-        console.log("CarouselTranslate getItems");
+        console.log("GET CarouselTranslate items");
 
         return mainPresentationCarouselItems.map((item, index) => {
 
@@ -52,7 +52,7 @@ const MainPresentation = ({}: MainPresentationProps) => {
 
                         <h3>{ item.title }</h3>
                         <p className={classes.Paragraph}>{ item.desc }</p>
-                        <Anchor label={"Подробнее"} href={item.href} type={"OUTLINED"}/>
+                        <Anchor ariaLabel={`Перейти на страницу ${item.title}`} label={"Подробнее"} href={item.href} type={"OUTLINED"}/>
 
                     </div>
                 </li>
@@ -63,7 +63,7 @@ const MainPresentation = ({}: MainPresentationProps) => {
 
     }
 
-    console.log("render MainPresentation");
+    console.log("RENDER MainPresentation");
 
     return (
         

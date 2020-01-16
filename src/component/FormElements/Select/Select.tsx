@@ -1,5 +1,7 @@
 import React from "react";
-import classes from "./Select.module.scss";
+//import classes from "./Select.module.scss";
+import classes from "./../Input/Input.module.scss";
+import {HundredPersentWidth} from "./../../../CommonClasses.module.scss";
 import { FormElementProps } from "../FormElementPropsInterface";
 
 export type Option = { value: string; label: string };
@@ -30,15 +32,16 @@ const select = ({
   };
 
   const optionsElements = getOptions(options);
+  const selectClasses = `${classes.BaseInput} ${HundredPersentWidth}`;
 
   return (
-    <div className={classes.SelectWrapper}>
+    <div className={classes.BaseInputWrapper}>
       <label htmlFor={elementAttrs.id} className={classes.Label}>
         {labelValue}
       </label>
 
       <select
-        className={classes.Select}
+        className={selectClasses}
         {...elementAttrs}
         name={name}
         value={value}

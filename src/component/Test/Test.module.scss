@@ -9,5 +9,46 @@
   border: 1px solid black;
   border-radius: 10px;
 
+ /*  @for $i from 0 through 300 {
+    .Item-#{$i} { 
+      width: 10px;
+      height: 10px;
+      background-color: rgb(169, 255, 255);
+      border: 1px solid black;
+      color: red;
+      padding: 5px;
+     }
+  } */
+  .Item { 
+    width: 10px;
+    height: 10px;
+    background-color: rgb(169, 255, 255);
+    border: 1px solid black;
+    color: red;
+    padding: 5px;
+   }
+
+  .Section {
+    width: 100%;
+    height: 300px;
+
+    background-color: rgba(255, 168, 168, 0.63);
+
+    &:nth-child(odd){
+      background-color: rgba(168, 255, 248, 0.63);
+    }
+  }
+
   //text-align: center;
+}
+
+
+.LoadingDynamicLoading{
+  width: 98%;
+  height: 98%;
+}
+
+.ErrorDynamicLoading{
+  width: 100%;
+  height: 100%;
 }

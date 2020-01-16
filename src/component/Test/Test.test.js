@@ -1,19 +1,62 @@
-import {SomeClass} from "./Test";
-import StaticTest from "./StaticTest";
-import * as validators from './../../helper/Validation/validators';
+import React from 'react';
+import {
+    render,
+    fireEvent,
+    cleanup,
+    waitForElement,
+    } from '@testing-library/react';
+import { configure } from '@testing-library/dom';
+import '@testing-library/jest-dom/extend-expect';
 
-describe("Is static testable", () => {
+import Test from "./Test";
 
-    test("Can we mock static class methods", () => {
 
-        validators.isFile = jest.fn();
+describe("Test", () => {
 
-        const some = new SomeClass();
+    let _render = null;
 
-        some.someMethod();
+    beforeEach(() => {
+        
+        console.log = jest.fn();
+        window.IntersectionObserver =  class IntersectionObserver {
+            constructor() {}
+          
+            observe() {
+              return null;
+            }
+          
+            unobserve() {
+              return null;
+            }
+        };
+        _render = render(<Test />);
+    
+    });
 
-        expect(validators.isFile).toHaveBeenCalledTimes(1);
+    afterEach(cleanup)
+
+    describe("Does ref change with rerender", () => {
+
+        test("How objects compare", () => {
+
+            const clickBtn = _render.getByText('Click');
+            const p = document.querySelector('p');
+
+            const observer = new window.IntersectionObserver();
+
+            expect(observer.observe()).toEqual(null);
+
+            console.log(`HEIGHT ${document.documentElement.clientHeight}`);
+
+            expect(p.innerHTML).toEqual("1");
+
+            expect(console.log).toHaveBeenNthCalledWith(1, "Test render");
+
+            fireEvent.click(clickBtn);
+
+            expect(p.innerHTML).toEqual("2");
+
+        })    
 
     })
-
 });

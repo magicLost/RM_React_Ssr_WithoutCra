@@ -2,14 +2,19 @@ import React from 'react';
 import classes from './CloseButton.module.scss';
         
 interface CloseButtonProps  {
-    onClick: (event: any) => void | undefined;
+    onClick: (event: any) => void | undefined,
+    ariaLabel: string
 }
 
-const closeButton = ({onClick}: CloseButtonProps) => {
+const closeButton = ({onClick, ariaLabel}: CloseButtonProps) => {
 
     return (
         
-        <button className={classes.CloseButton} onClick={onClick}>
+        <button 
+            className={classes.CloseButton} 
+            onClick={onClick}
+            aria-label={ariaLabel}
+        >
 
             <span className={classes.LeftRight}></span>
             <span className={classes.RightLeft}></span>

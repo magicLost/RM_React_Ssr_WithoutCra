@@ -2,14 +2,15 @@ import React, {useMemo} from 'react';
 import classes from './PortfolioSlider.module.scss';
 import { usePortfolioSlider } from '../../../hooks/Slider/portfolioSlider';
 import {photos, icons, categories} from "../../../data/portfolio_data";
-import ImgWithLoading from '../../../component/UI/ImgWithLoading/ImgWithLoading';
+//import ImgWithLoading from '../../../component/UI/ImgWithLoading/ImgWithLoading';
+import Image from '../../../component/UI/Image/Image';
 import RCarouselOpacity, {GetItemStyle, GetItems as GetCarouselItems} from '../../Carousels/RCarousel/RCarouselOpacity/RCarouselOpacity';
 //import Scroller, {GetItems as GetScrollerItems} from '../../Scrollers/Scroller/Scroller';
 import ArrowControls from '../../../component/ArrowControls/ArrowControls';
 import ControlsFeature from '../../ControlsFeature/ControlsFeature';
 import Button from '../../../component/UI/Button/Button';
 //import RScroller, {GetScrollerItems} from '../../Scrollers/RScroller/RScroller';
-import Scroller, {GetScrollerItems} from '../../Scrollers/Scroller/Scroller';
+import Scroller, {GetScrollerItems} from '../../Scroller/Scroller';
 
         
 interface PortfolioSliderProps  {
@@ -62,6 +63,8 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
 
             let style = getItemStyle(index);
 
+            console.log("isActive ", index === activeIndex);
+
             return (
 
                 <li
@@ -71,7 +74,7 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
                 >
 
                     <div className={classes.CarouselPhotoItem}>
-                        <ImgWithLoading
+                        <Image
                             alt={"Пример нашей работы."}
                             isActive={ index === activeIndex }
                             src={photos[categoryIndex].size300[index]}
@@ -89,7 +92,7 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
 
     };
 
-    const getScrollerItems: GetScrollerItems = (itemClass, onItemClick, numberOfActiveItems, itemRef) => {
+    const getScrollerItems: GetScrollerItems = (itemClass, onItemClick, numberOfActiveItems, itemRef, isIntersect) => {
 
         console.log("get scroller items");
         return photos[categoryIndex].size300.map((value, index: number) => {
@@ -147,7 +150,8 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
                 </p>
 
                 <Button 
-                    type={"TEXT"} 
+                    ariaLabel={"Заказать работу как на фото."}
+                    type={"OUTLINED"} 
                     label={"Хочу такую"} 
                     onClick={(event: any) => {showFeedBackFormHandler(desc.id)}
                 } />
@@ -166,7 +170,7 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
 
     };
 
-    console.log("Portfolio slider render");
+    console.log("RENDER Portfolio slider");
 
     return (
         
@@ -231,6 +235,7 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
                         items={photos[categoryIndex].size300}
                         getItems={getScrollerItems}
                         itemClickHandler={onScrollerItemClick}
+                        isIntersect={true}
                     /> 
 
                 </div>

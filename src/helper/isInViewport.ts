@@ -30,10 +30,10 @@ export const isInViewport = (
   if (element === null) throw new Error("Bad element");
   const distance = element.getBoundingClientRect();
 
-  /* console.log(distance);
+  console.log(distance);
   console.log(element);
   console.log(document.documentElement.clientHeight);
-  console.log(document.documentElement.scrollTop); */
+  console.log(document.documentElement.scrollTop); 
 
   return (
     distance.top <=

@@ -1,4 +1,4 @@
-import {useReducer, useRef} from "react";
+import {useReducer, useRef, useEffect} from "react";
 import { IRCarouselController } from "../../../container/Carousels/RCarousel/RCarouselController";
 import RCarouselTranslateController from "../../../container/Carousels/RCarousel/RCarouselTranslate/Controller/RCarouselTranslateController";
 import CalcTranslateX from "../../../container/Carousels/RCarousel/CalcTranslateX";
@@ -72,6 +72,29 @@ export const useCarouselTranslate = (itemsLength: number) => {
     });
 
     controllerRef.current.dispatch = dispatch;
+    controllerRef.current.containerRef = useRef(null);
+
+    useEffect(() => {
+
+        const controller = controllerRef.current;
+
+        if(controller === null) throw new Error("No controller");
+
+        console.log(controller);
+        if(!controller.containerRef || !controller.containerRef.current) throw new Error("No container ref");
+
+        //console.log("Add event touchmove", controller.containerRef.current);
+        controller.containerRef.current.addEventListener("touchmove", controller.onTouchMove, {passive: false});
+
+        return () => {
+            const controller = controllerRef.current;
+            if(controller === null) throw new Error("No controller");
+
+            if(!controller.containerRef || !controller.containerRef.current) throw new Error("No container ref");
+
+            controller.containerRef.current.removeEventListener("touchmove", controller.onTouchMove);    
+        }
+    }, [])
 
     return {
         controller: controllerRef.current,
@@ -111,6 +134,28 @@ export const useCarouselOpacity = (itemsLength: number) => {
 
     controllerRef.current.dispatch = dispatch;
     controllerRef.current.itemsLength = itemsLength;
+    controllerRef.current.containerRef = useRef(null);
+
+    useEffect(() => {
+
+        const controller = controllerRef.current;
+
+        if(controller === null) throw new Error("No controller");
+
+        if(!controller.containerRef || !controller.containerRef.current) throw new Error("No container ref");
+
+        //console.log("Add event touchmove", controller.containerRef.current);
+        controller.containerRef.current.addEventListener("touchmove", controller.onTouchMove, {passive: false});
+
+        return () => {
+            const controller = controllerRef.current;
+            if(controller === null) throw new Error("No controller");
+
+            if(!controller.containerRef || !controller.containerRef.current) throw new Error("No container ref");
+
+            controller.containerRef.current.removeEventListener("touchmove", controller.onTouchMove);    
+        }
+    }, [])
 
     return {
         controller: controllerRef.current,

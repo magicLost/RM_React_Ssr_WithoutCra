@@ -48,6 +48,7 @@ const CategoryShowcase = ({
 
         <div className={classes.Buttons}>
           <Button
+            ariaLabel={"Заказать"}
             label={"Заказать"}
             type={"OUTLINED"}
             onClick={orderButtonClick}
@@ -55,6 +56,7 @@ const CategoryShowcase = ({
 
           {isCalcButton && (
             <Button
+              ariaLabel={"Рассчитать стоимость"}
               label={"Рассчитать стоимость"}
               type={"OUTLINED"}
               onClick={calcButtonClick}

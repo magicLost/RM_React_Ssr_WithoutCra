@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./ContactsPage.module.scss";
 import ListSvg from "../../../component/UI/ListSvg/ListSvg";
 import ListSvgWithText from "../../../component/UI/ListSvgWithText/ListSvgWithText";
-import { social, contacts } from "../../../data/contacts_data";
+import { social, contacts, mapLink } from "../../../data/contacts_data";
 
 interface ContactsPageProps {}
 
@@ -10,7 +10,8 @@ const ContactsPage = ({}: ContactsPageProps) => {
   return (
     <div className={classes.Wrapper}>
       <div className={classes.Map}>
-        <a href={"#"}> Санкт-Петербург, ул. Сабировская, 37</a>
+        <a href={mapLink}> 
+          Санкт-Петербург, ул. Сабировская, 37</a>
       </div>
 
       <div className={classes.Contacts}>

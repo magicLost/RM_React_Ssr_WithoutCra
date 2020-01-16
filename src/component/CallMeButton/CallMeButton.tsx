@@ -7,8 +7,15 @@ interface CallMeButtonProps {
 }
 
 const CallMeButton = ({ clickHandler }: CallMeButtonProps) => {
+
+  console.log("RENDER CallMeButton");
+
   return (
-    <button className={classes.CallMeButton} onClick={clickHandler}>
+    <button 
+      className={classes.CallMeButton} 
+      onClick={clickHandler}
+      aria-label={"Показать форму заказа звонка"}
+    >
       <svg className={classes.CallMeButtonSvg} width="50" height={"50"}>
         <use xlinkHref={icons + "#callMe"} />
       </svg>
@@ -16,4 +23,4 @@ const CallMeButton = ({ clickHandler }: CallMeButtonProps) => {
   );
 };
 
-export default CallMeButton;
+export default React.memo(CallMeButton);

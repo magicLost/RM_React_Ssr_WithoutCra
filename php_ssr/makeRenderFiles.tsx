@@ -22,6 +22,10 @@ const routes: route[] = [
   {
     path: "/contacts",
     fileName: "contacts"
+  },
+  {
+    path: "/portfolio",
+    fileName: "portfolio"
   }
 ];
 
