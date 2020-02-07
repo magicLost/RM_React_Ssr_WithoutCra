@@ -43,7 +43,7 @@ const RCarouselTranslate = ({items, getItems, activeIndex, translateX, isTransla
 
     /* RENDER */
 
-    console.log("RENDER RCarouselTranslate", controller);
+    console.log("RENDER RCarouselTranslate");
 
     const listStyle: React.CSSProperties = getListStyle(activeIndex, translateX, isTranslated);
 

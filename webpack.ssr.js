@@ -10,7 +10,7 @@ const prod = require("./webpack.prod.js");
 //const useVersioning = true;
 
 const config = merge(prod, {
-  entry: "./php_ssr/makeRenderFiles.tsx",
+  entry: "./php_ssr/makeSsrReadyOnServer.tsx",
 
   target: "node",
 

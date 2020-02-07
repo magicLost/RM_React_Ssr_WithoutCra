@@ -1,20 +1,60 @@
 import React, { useState, useMemo, useEffect } from "react";
+import loadable from "@loadable/component";
+import { Switch, Route } from "react-router-dom";
+import pMinDelay from 'p-min-delay';
+
 import classes from "./App.module.scss";
-import MenuTab from "./component/MenuTab/MenuTab";
+
+import MenuTab, {IMenuTabProps} from "./component/MenuTab/MenuTab";
 import { mainMenuItems } from "./data/menu_data";
 import Modal from "./component/Modal/Modal";
 import { useApp } from "./hooks/App/app";
 import Header from "./container/Header/Header";
-import Feedback from "./container/Forms/Feedback/Feedback";
-import { Switch, Route } from "react-router-dom";
-import SHomepage from "./container/Pages/SHomepage/SHomepage";
-import ContactsPage from "./container/Pages/ContactsPage/ContactsPage";
-import LargePrintPage from "./container/Pages/LargePrintPage/LargePrintPage";
-import CalcPrice from "./container/Forms/CalcPrice/CalcPrice";
-import PortfolioPage from "./container/Pages/PortfolioPage/PortfolioPage";
+//import Feedback from "./container/Forms/Feedback/Feedback";
+//import SHomepage from "./container/Pages/SHomepage/SHomepage";
+//import ContactsPage from "./container/Pages/ContactsPage/ContactsPage";
+import {ILargePrintPageProps} from "./container/Pages/LargePrintPage/LargePrintPage";
+//import CalcPrice from "./container/Forms/CalcPrice/CalcPrice";
+import {IPortfolioPageProps} from "./container/Pages/PortfolioPage/PortfolioPage";
+import Spinner from "./component/UI/Spinner/Spinner";
+import ErrorBoundary from "./component/ErrorBoundary/ErrorBoundary";
+import {IModalFormsProps} from "./container/Modals/ModalForms/ModalForms";
 
 
-function App() {
+const spinner = <Spinner />;
+
+const HomepageLoadable = loadable(
+  () => pMinDelay(import("./container/Pages/SHomepage/SHomepage"), 300), 
+  { fallback: spinner }
+);
+
+const LargePrintPageLoadable = loadable(
+  (props: ILargePrintPageProps) => pMinDelay(import("./container/Pages/LargePrintPage/LargePrintPage"), 300),
+  { fallback: spinner }
+);
+
+const PortfolioPageLoadable = loadable(
+  (props: IPortfolioPageProps) => pMinDelay(import("./container/Pages/PortfolioPage/PortfolioPage"), 300),
+  { fallback: spinner }
+);
+
+const ContactsPageLoadable = loadable(
+  () => pMinDelay(import("./container/Pages/ContactsPage/ContactsPage"), 300),
+  { fallback: spinner }
+);
+
+/* const MenuLoadable: React.FunctionComponent<IMenuTabProps> = loadable(
+  (props: IMenuTabProps) => pMinDelay(import("./component/MenuTab/MenuTab"), 300),
+  { fallback: spinner }
+); */
+
+const ModalFormsLoadable: React.FunctionComponent<IModalFormsProps> = loadable(
+  (props: IModalFormsProps) => pMinDelay(import("./container/Modals/ModalForms/ModalForms"), 300),
+  { fallback: spinner }
+)
+
+
+const App: React.FunctionComponent = () => {
   const { state, controller } = useApp();
 
   console.log("render App");
@@ -36,23 +76,25 @@ function App() {
       />
 
       <main>
-        <Switch>
-          <Route path="/large-print">
-            <LargePrintPage
-              onCalcPrice={controller.onShowCalcPriceForm}
-              onFeedback={controller.onShowFeedbackForm}
-            />
-          </Route>
-          <Route path="/portfolio">
-            <PortfolioPage showFeedBackFormHandler={controller.onShowWannaTheSameForm} />
-          </Route>
-          <Route path="/contacts">
-            <ContactsPage />
-          </Route>
-          <Route path="/">
-            <SHomepage />
-          </Route>
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <Route path="/large-print">
+              <LargePrintPageLoadable
+                onCalcPrice={controller.onShowCalcPriceForm}
+                onFeedback={controller.onShowFeedbackForm}
+              />
+            </Route>
+            <Route path="/portfolio">
+              <PortfolioPageLoadable showFeedBackFormHandler={controller.onShowWannaTheSameForm} />
+            </Route>
+            <Route path="/contacts">
+              <ContactsPageLoadable />
+            </Route>
+            <Route path="/">
+              <HomepageLoadable />
+            </Route>
+          </Switch>
+        </ErrorBoundary>
       </main>
 
       <footer className={classes.Footer}>
@@ -69,7 +111,13 @@ function App() {
         onClose={controller.onHideModal}
         type={"CENTER"}
       >
-        {useMemo(() => {
+        <ErrorBoundary>
+          <ModalFormsLoadable
+            modalChildrenType={controller.modalChildrenType}
+            hiddenFields={controller.hiddenFields}
+          />
+        </ErrorBoundary>
+        {/* {useMemo(() => {
           if (
             controller.modalChildrenType === "FEEDBACK" ||
             controller.modalChildrenType === "WANNA_THE_SAME"
@@ -92,7 +140,7 @@ function App() {
           } else if (controller.modalChildrenType === "CALC_PRICE") {
             return <CalcPrice />;
           }
-        }, [state.isShowModalFromTop])}
+        }, [state.isShowModalFromTop])} */}
       </Modal>
 
       <Modal
@@ -100,10 +148,22 @@ function App() {
         onClose={controller.onHideModal}
         type={"LEFT_TAB"}
       >
-        {useMemo(() => {
+        { controller.modalChildrenType === "MENU" && 
+            <MenuTab
+              isVisible={true}
+              items={mainMenuItems}
+              layer={0}
+              backgroundColors={["white", "#f7f7f7", "gray"]}
+              initHeight={220}
+              initTopBottomPadding={20}
+              onCloseMenu={controller.onHideModal}
+            />
+        }
+
+        {/* {useMemo(() => {
           if (controller.modalChildrenType === "MENU") {
             return (
-              <MenuTab
+              <MenuLoadable
                 isVisible={true}
                 items={mainMenuItems}
                 layer={0}
@@ -114,7 +174,7 @@ function App() {
               />
             );
           }
-        }, [state.isShowModalFromLeft])}
+        }, [state.isShowModalFromLeft])} */}
       </Modal>
     </div>
   );

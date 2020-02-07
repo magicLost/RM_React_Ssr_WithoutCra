@@ -3,10 +3,15 @@ import classes from "./ContactsPage.module.scss";
 import ListSvg from "../../../component/UI/ListSvg/ListSvg";
 import ListSvgWithText from "../../../component/UI/ListSvgWithText/ListSvgWithText";
 import { social, contacts, mapLink } from "../../../data/contacts_data";
+import { useTitle } from "../../../hooks/Page/page";
+import { contactsTitle } from "../../../data/routes_data";
+
 
 interface ContactsPageProps {}
 
 const ContactsPage = ({}: ContactsPageProps) => {
+  useTitle(contactsTitle);
+
   return (
     <div className={classes.Wrapper}>
       <div className={classes.Map}>

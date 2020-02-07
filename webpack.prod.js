@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const WebpackChunkHash = require("webpack-chunk-hash");
+const LoadablePlugin = require('@loadable/webpack-plugin')
 //const autoprefixer = require('autoprefixer');
 //const CopyPlugin = require("copy-webpack-plugin");
 
@@ -99,7 +100,8 @@ module.exports = merge(common, {
       //publicPath: "/"
     }),
     new WebpackChunkHash(),
-    new webpack.HashedModuleIdsPlugin()
+    new webpack.HashedModuleIdsPlugin(),
+    new LoadablePlugin()
   ],
 
   optimization: {

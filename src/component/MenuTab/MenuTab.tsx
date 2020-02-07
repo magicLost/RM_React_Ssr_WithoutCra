@@ -4,7 +4,7 @@ import { MenuItem as IMenuItem } from "./../../data/menu_data";
 import MenuItem from "../MenuItem/MenuItem";
 import MenuItemWithChildren from "../MenuItem/MenuItemWithChildren";
 
-interface MenuTabProps {
+export interface IMenuTabProps {
   isVisible: boolean;
   layer: number;
   items: IMenuItem[];
@@ -27,7 +27,7 @@ const MenuTab = ({
   initHeight,
   backgroundColors,
   onCloseMenu
-}: MenuTabProps) => {
+}: IMenuTabProps) => {
   //get wrapper height, init = 220
   const style: React.CSSProperties =
     layer === 0 ? {} : { height: calcHeightByLayer(layer, initHeight) + "px" };

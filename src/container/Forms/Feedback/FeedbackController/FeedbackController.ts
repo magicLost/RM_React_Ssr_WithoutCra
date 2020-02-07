@@ -47,7 +47,7 @@ class FeedbackController extends FormController {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("onClear");
+    //console.log("onClear");
 
     this.onClearHandler();
 
@@ -66,7 +66,7 @@ class FeedbackController extends FormController {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("onChange", event.target);
+    //console.log("onChange", event.target);
 
     this.onChangeHandler(event.target);
   };
@@ -75,7 +75,7 @@ class FeedbackController extends FormController {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("Submit");
+    //console.log("Submit");
 
     this.onSubmitHandler();
   };
@@ -227,6 +227,8 @@ class FeedbackController extends FormController {
     sendPostWithJsonResponse(this.url, formData).then(data => {
 
       if (data.status && data.status === "success") {
+
+        console.log(data);
 
         this.onSuccess();
 

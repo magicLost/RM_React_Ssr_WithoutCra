@@ -7,15 +7,21 @@ import {
   showcaseConditions
 } from "./../../../data/large_print_data";
 import CategoryShowcase from "../../../component/CategoryShowcase/CategoryShowcase";
+import { useTitle } from "../../../hooks/Page/page";
+import { largePrintTitle } from "../../../data/routes_data";
 //import CalcPrice from "../../Forms/CalcPrice/CalcPrice";
 //import Test from "../../../component/Test/Test";
 
-interface LargePrintPageProps {
+
+export interface ILargePrintPageProps {
   onFeedback: (event: any) => void | undefined;
   onCalcPrice: (event: any) => void | undefined;
 }
 
-const LargePrintPage = ({ onFeedback, onCalcPrice }: LargePrintPageProps) => {
+const LargePrintPage = ({ onFeedback, onCalcPrice }: ILargePrintPageProps) => {
+
+  useTitle(largePrintTitle);
+
   return (
     <div className={classes.LargePrintPage}>
       <CategoryShowcase

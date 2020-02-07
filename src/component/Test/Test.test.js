@@ -9,6 +9,7 @@ import { configure } from '@testing-library/dom';
 import '@testing-library/jest-dom/extend-expect';
 
 import Test from "./Test";
+import * as helper from "./Helper/Helper";
 
 
 describe("Test", () => {
@@ -18,44 +19,25 @@ describe("Test", () => {
     beforeEach(() => {
         
         console.log = jest.fn();
-        window.IntersectionObserver =  class IntersectionObserver {
-            constructor() {}
-          
-            observe() {
-              return null;
-            }
-          
-            unobserve() {
-              return null;
-            }
-        };
+
+        helper.getBodyClientHeight = jest.fn();
+        helper.getBodyClientHeight.mockReturnValue(300);
+        
         _render = render(<Test />);
     
     });
 
     afterEach(cleanup)
 
-    describe("Does ref change with rerender", () => {
+    describe("", () => {
 
-        test("How objects compare", () => {
+        test("", () => {
 
-            const clickBtn = _render.getByText('Click');
-            const p = document.querySelector('p');
-
-            const observer = new window.IntersectionObserver();
-
-            expect(observer.observe()).toEqual(null);
-
-            console.log(`HEIGHT ${document.documentElement.clientHeight}`);
-
-            expect(p.innerHTML).toEqual("1");
-
+            expect(console.log).toHaveBeenCalledTimes(3);
+            //expect(console.log).toHaveBeenLastCalledWith("useEffect");
             expect(console.log).toHaveBeenNthCalledWith(1, "Test render");
-
-            fireEvent.click(clickBtn);
-
-            expect(p.innerHTML).toEqual("2");
-
+            expect(console.log).toHaveBeenNthCalledWith(2, "useEffect");
+            expect(console.log).toHaveBeenNthCalledWith(3, 300);
         })    
 
     })

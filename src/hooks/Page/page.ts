@@ -8,6 +8,12 @@ export type PageState = {
   initScrollValue: number;
 };
 
+export const useTitle = (title: string) => {
+  useEffect(() => {
+    document.title = title;
+  }, []);
+}
+
 export const usePage = (numberOfHiddenSections: number) => {
   const controllerRef: React.MutableRefObject<PageController | null> = useRef(
     null

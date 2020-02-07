@@ -80,7 +80,7 @@ export const useCarouselTranslate = (itemsLength: number) => {
 
         if(controller === null) throw new Error("No controller");
 
-        console.log(controller);
+        //console.log(controller);
         if(!controller.containerRef || !controller.containerRef.current) throw new Error("No container ref");
 
         //console.log("Add event touchmove", controller.containerRef.current);
