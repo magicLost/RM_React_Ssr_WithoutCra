@@ -18,7 +18,7 @@ export default abstract class FormModel implements IFormModel {
 
   abstract validateOnSubmit(stateFormElements: TFormElementsState): string;
 
-  getFormElementsInitState(
+  getFormElementsInitState( 
     formElements: TFormElementsDescs
   ): TFormElementsState {
     const formElementsState: TFormElementsState = new Map();

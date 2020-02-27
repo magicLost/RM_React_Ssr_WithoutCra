@@ -17,7 +17,7 @@ interface PortfolioSliderProps  {
     //categories: any[],
     //icons: any[],
     //photos: any[],
-    showFeedBackFormHandler: (id: string) => void | undefined
+    showFeedBackFormHandler: (photoName: string) => void | undefined
 }
 
 const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
@@ -153,7 +153,10 @@ const PortfolioSlider = ({showFeedBackFormHandler}: PortfolioSliderProps) => {
                     ariaLabel={"Заказать работу как на фото."}
                     type={"OUTLINED"} 
                     label={"Хочу такую"} 
-                    onClick={(event: any) => {showFeedBackFormHandler(desc.id)}
+                    onClick={(event: any) => {
+                        console.log(`WANNA THE SAME PHOTO NAME - ${photos[categoryIndex].size300[photoIndex]}`, photos);
+                        showFeedBackFormHandler(photos[categoryIndex].size300[photoIndex]);
+                    }
                 } />
 
             </div>

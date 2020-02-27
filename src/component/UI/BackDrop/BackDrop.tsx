@@ -12,5 +12,5 @@ const backDrop = ({show, backdropClickHandler}: BackDropProps) => (
 
 );
 
-export default backDrop;
+export default backDrop; 
         

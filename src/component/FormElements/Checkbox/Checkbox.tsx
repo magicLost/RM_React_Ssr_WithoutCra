@@ -1,6 +1,7 @@
 import React from "react";
 //import classes from "./Checkbox.module.scss";
-import classes from "./../Input/Input.module.scss";
+import inputClasses from "./../Input/Input.module.scss";
+import classes from "./Checkbox.module.scss";
 import { FormElementProps } from "../FormElementPropsInterface";
 
 interface CheckboxProps extends FormElementProps {
@@ -18,11 +19,17 @@ const Checkbox = ({
 }: CheckboxProps) => {
   console.log("Checkbox render ");
 
+  const checkboxWrapperClasses = `${inputClasses.BaseInputWrapper} ${classes.Wrapper}`;
+  const checkboxClasses = `${inputClasses.BaseInput} ${classes.Checkbox}`;
+
   return (
-    <div className={classes.BaseInputWrapper}>
+    <div className={checkboxWrapperClasses}>
+      <label htmlFor={elementAttrs.id} className={classes.Label}>
+        {labelValue}
+      </label>
       <input
         type="checkbox"
-        className={classes.BaseInput}
+        className={checkboxClasses}
         {...elementAttrs}
         value={value}
         disabled={disabled}
@@ -30,9 +37,6 @@ const Checkbox = ({
         onChange={onChange}
         name={name}
       />
-      <label htmlFor={elementAttrs.id} className={classes.Label}>
-        {labelValue}
-      </label>
     </div>
   );
 };

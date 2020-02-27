@@ -48,6 +48,20 @@ class FeedbackModel extends FormModel implements IFeedbackModel {
     return "";
   }
 
+  calcDateAndToken = (): {date: string, token: string} => {
+
+    const date: string = Date.now() + "";
+
+    let str: string = date.substring(date.length - 5);
+
+    let token: string = btoa(`${date}.${str}`);
+
+    return {
+      date: date,
+      token: token
+    };
+  }
+
   createToken(stateFormElements: TFormElementsState): string {
     let name = "";
     let email = "";
@@ -71,7 +85,13 @@ class FeedbackModel extends FormModel implements IFeedbackModel {
 
     stringToHash = encodeURI(stringToHash).substr(0, 64);
 
+    //console.log(`ALL - ${name + email + phone}`);
+
+    //console.log(`ENCODE - ${stringToHash}`);
+
     let token = btoa(stringToHash);
+
+    //console.log(`TOKEN - ${token}`);
 
     if (token.length > 64) {
       token = token.substr(0, 64);

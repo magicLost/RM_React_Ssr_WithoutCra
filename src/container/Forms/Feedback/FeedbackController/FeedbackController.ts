@@ -102,10 +102,15 @@ class FeedbackController extends FormController {
           this.hiddenFields
         );
 
-        const token = (<IFeedbackModel>this.model).createToken(
+        /* const token = (<IFeedbackModel>this.model).createToken(
           prevState.formElementsState
         );
 
+        formData.append("_token", token); */
+
+        const {date, token} = (<IFeedbackModel>this.model).calcDateAndToken();
+
+        formData.append("DATE", date);
         formData.append("_token", token);
 
         this.postRequest(formData);
@@ -234,6 +239,8 @@ class FeedbackController extends FormController {
 
       } else if (data.status && data.status === "fail") {
 
+        console.log(data);
+
         this.onFail(data);
 
       } else {
@@ -243,6 +250,7 @@ class FeedbackController extends FormController {
       }
 
     }).catch(error => {
+      console.log("[SERVER ERROR] ", error);
       this.onServerError();
     })
 

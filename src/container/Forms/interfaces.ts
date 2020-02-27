@@ -50,4 +50,5 @@ export interface IFormModel {
 
 export interface IFeedbackModel extends IFormModel {
   createToken(stateFormElements: TFormElementsState): string;
-}
+  calcDateAndToken(): {date: string, token: string}
+} 

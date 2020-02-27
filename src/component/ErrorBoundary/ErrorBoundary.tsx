@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './ErrorBoundary.module.scss';
+import Button from '../UI/Button/Button';
         
 /* interface ErrorBoundaryProps  {
     
@@ -27,7 +28,15 @@ class ErrorBoundary extends React.Component {
                 <h4>Сервер не отвечает...</h4>
                 <ul>
                     <li>Проверьте интернет соединение.</li>
-                    <li>Попробуйте <button onClick={() => this.setState({hasError: false})}>еще раз.</button></li>
+                    <li>
+                      Попробуйте 
+                      <Button 
+                        label={"еще раз."} 
+                        type={"CONTAINED"}
+                        onClick={() => this.setState({hasError: false})}
+                        ariaLabel={"Перезагрузить страницу."}
+                      />
+                    </li>
                     <li>Попробуйте перезагрузить страницу.</li>
                 </ul>
             </div>

@@ -5,7 +5,7 @@ import pMinDelay from 'p-min-delay';
 
 import classes from "./App.module.scss";
 
-import MenuTab, {IMenuTabProps} from "./component/MenuTab/MenuTab";
+import MenuTab from "./component/MenuTab/MenuTab";
 import { mainMenuItems } from "./data/menu_data";
 import Modal from "./component/Modal/Modal";
 import { useApp } from "./hooks/App/app";
@@ -19,6 +19,7 @@ import {IPortfolioPageProps} from "./container/Pages/PortfolioPage/PortfolioPage
 import Spinner from "./component/UI/Spinner/Spinner";
 import ErrorBoundary from "./component/ErrorBoundary/ErrorBoundary";
 import {IModalFormsProps} from "./container/Modals/ModalForms/ModalForms";
+import NotFoundPage from "./container/Pages/NotFoundPage/NotFoundPage";
 
 
 const spinner = <Spinner />;
@@ -92,6 +93,9 @@ const App: React.FunctionComponent = () => {
             </Route>
             <Route path="/">
               <HomepageLoadable />
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
             </Route>
           </Switch>
         </ErrorBoundary>

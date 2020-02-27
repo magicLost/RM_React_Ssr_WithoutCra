@@ -135,7 +135,7 @@ class DiSsrPurePhpHelper implements IDynamicImportSsrPurePhpHelper {
         finalTemplate = finalTemplate.replace(contentMark, html);
 
         this.fs.writeFile(
-            `${this.pathToPhpTemplatesDir}/${route.fileName}.html.twig`, 
+            `${this.pathToPhpTemplatesDir}/${route.fileName}.html`, 
             finalTemplate, 
             true
         );

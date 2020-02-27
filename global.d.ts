@@ -12,3 +12,4 @@ declare module "*.jpg" {
   //const classes: any;
   export default path;
 }
+

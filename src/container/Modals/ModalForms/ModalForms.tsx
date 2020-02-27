@@ -4,6 +4,8 @@ import CalcPrice from "./../../Forms/CalcPrice/CalcPrice";
 import Feedback from "./../../Forms/Feedback/Feedback";
 import { IHiddenField } from "./../../Forms/interfaces";
 import { FORM_TYPE } from "./../../../data/feedback_forms_data";
+import { hostName } from '../../../data/main_data';
+
         
 export interface IModalFormsProps  {
     modalChildrenType: FORM_TYPE | "MENU",
@@ -17,7 +19,7 @@ const ModalForms = ({modalChildrenType, hiddenFields}: IModalFormsProps) => {
     ) {
         return (
             <Feedback
-                url={"http://192.168.1.231/feedback"}
+                url={`${hostName}/feedback`}
                 hiddenFields={hiddenFields}
                 isCallMe={false}
             />
@@ -25,7 +27,7 @@ const ModalForms = ({modalChildrenType, hiddenFields}: IModalFormsProps) => {
     } else if (modalChildrenType === "CALL_ME") {
         return (
             <Feedback
-                url={"http://192.168.1.231/feedback"}
+                url={`${hostName}/feedback`}
                 hiddenFields={hiddenFields}
                 isCallMe={true}
             />

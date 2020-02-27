@@ -6,7 +6,7 @@ import { portfolioTitle } from '../../../data/routes_data';
 
         
 export interface IPortfolioPageProps  {
-    showFeedBackFormHandler: (id: string) => void | undefined
+    showFeedBackFormHandler: (photoName: string) => void | undefined
 }
 
 const PortfolioPage = ({showFeedBackFormHandler}: IPortfolioPageProps) => {

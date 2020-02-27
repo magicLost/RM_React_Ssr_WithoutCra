@@ -53,11 +53,11 @@ class AppController {
     this.showModal("CENTER", "FEEDBACK", []);
   };
 
-  onShowWannaTheSameForm = (id: string) => {
+  onShowWannaTheSameForm = (photoName: string) => {
     const hiddenFields: IHiddenField[] = [
       {
-        name: "photo_id",
-        value: id
+        name: "PHOTO_NAME",
+        value: photoName
       }
     ];
 
